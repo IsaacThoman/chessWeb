@@ -2,7 +2,7 @@
 <html>
 <head>
     <meta charset="utf-8" />
-    <title>Gamedev Canvas Workshop</title>
+    <title>Chess</title>
     <style>
     	* { padding: 0; margin: 0; }
     	canvas { background: #eee; display: block; margin: 0 auto; }
@@ -13,6 +13,19 @@
     <canvas id="myCanvas" width="512" height="512"></canvas>
 
 <script>
+// ---------Board Representation
+var boardSquares = [];
+for (var i=0;i<=64;i++) {
+boardSquares[i]=0;
+        var squareX=(i % 8);
+        var squareY = Math.floor(i/8);
+        if((squareY==6)){
+            boardSquares[i]=1;
+       }
+       
+}
+
+
 
 	const canvas = document.getElementById("myCanvas");
     const ctx = canvas.getContext("2d");
@@ -33,14 +46,17 @@
 
     
 
-function draw() {
-    ctx.drawImage(pieces[1],0, 0, boardResolution/8, boardResolution/8);
-}
+//function draw() {
+//    ctx.drawImage(pieces[1],0, 0, boardResolution/8, boardResolution/8);
+//}
 //setInterval(draw, 1000);
 var relativeX = 0;
 var relativeY = 0;
 var mousedownBool = false;
+function renderStills(){
 
+
+}
 
 document.addEventListener("mousemove", mouseMoveHandler, false);
 function mouseMoveHandler(e) {
@@ -48,16 +64,67 @@ function mouseMoveHandler(e) {
      relativeY = e.clientY - canvas.offsetTop;
     if(mousedownBool){
         drawBackground();
-        ctx.drawImage(pieces[1],relativeX-boardResolution/16, relativeY-boardResolution/16, boardResolution/8, boardResolution/8);
+        if(draggedPiece>=0){
+        ctx.drawImage(pieces[boardSquares[draggedPiece]],relativeX-boardResolution/16, relativeY-boardResolution/16, boardResolution/8, boardResolution/8);
+        }
+
+        for(var i=0;i<=64-1;i++){
+            var squareX=(i % 8);
+            var squareY = Math.floor(i/8);
+            if((boardSquares[i]!=0)&& draggedPiece !=i){
+                ctx.drawImage(pieces[boardSquares[i]],squareX*boardResolution/8, squareY*boardResolution/8, boardResolution/8, boardResolution/8);
+            }
+
+        }
     }
 }
 
+var draggedPiece=15;
 
 document.addEventListener('mousedown', e => {
 mousedownBool=true;
+
+    relativeX = e.clientX - canvas.offsetLeft;
+     relativeY = e.clientY - canvas.offsetTop;
+
+     var selectionX = Math.ceil(relativeX/boardResolution*8)-1;
+     var selectionY = Math.ceil(relativeY/boardResolution*8)-1;
+
+    var selection = (((selectionY*8)-1)+selectionX)+1;;
+    if(boardSquares[selection]==0){
+        draggedPiece=-1;
+    }else{
+        draggedPiece = selection;
+    }
+    
+    
 });
 document.addEventListener('mouseup', e => {
 mousedownBool=false;
+
+relativeX = e.clientX - canvas.offsetLeft;
+     relativeY = e.clientY - canvas.offsetTop;
+
+     var selectionX = Math.ceil(relativeX/boardResolution*8)-1;
+     var selectionY = Math.ceil(relativeY/boardResolution*8)-1;
+     var selection = (((selectionY*8)-1)+selectionX)+1;;
+     if(draggedPiece>=0){
+         var fromValue = boardSquares[draggedPiece];
+         boardSquares[draggedPiece]=0;
+         boardSquares[selection] = fromValue;
+         draggedPiece=-1;
+     }
+
+     drawBackground();
+     for(var i=0;i<=64-1;i++){
+            var squareX=(i % 8);
+            var squareY = Math.floor(i/8);
+            if((boardSquares[i]!=0)&& draggedPiece !=i){
+                ctx.drawImage(pieces[boardSquares[i]],squareX*boardResolution/8, squareY*boardResolution/8, boardResolution/8, boardResolution/8);
+            }
+
+        }
+
 });
 
 
