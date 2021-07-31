@@ -59,10 +59,14 @@ function renderStills(){
 }
 
 document.addEventListener("mousemove", mouseMoveHandler, false);
+document.addEventListener("mousedown", mouseDownHandler, false);
+document.addEventListener("mouseup", mouseUpHandler, false);
+
 function mouseMoveHandler(e) {
      relativeX = e.clientX - canvas.offsetLeft;
      relativeY = e.clientY - canvas.offsetTop;
-    if(mousedownBool){
+    if(mousedownBool&&mouseOnBoard(e)){
+        
         drawBackground();
         if(draggedPiece>=0){
         ctx.drawImage(pieces[boardSquares[draggedPiece]],relativeX-boardResolution/16, relativeY-boardResolution/16, boardResolution/8, boardResolution/8);
@@ -78,12 +82,19 @@ function mouseMoveHandler(e) {
         }
     }
 }
-
+function mouseOnBoard(e){
+    relativeX = e.clientX - canvas.offsetLeft;
+     relativeY = e.clientY - canvas.offsetTop;
+     if(relativeX<=boardResolution&&relativeX>=0&&relativeY<=boardResolution&&relativeY>=0){
+return true;
+     }
+     return false;
+}
 var draggedPiece=15;
 
-document.addEventListener('mousedown', e => {
+function mouseDownHandler(e){
 mousedownBool=true;
-
+console.log(e.clientX);
     relativeX = e.clientX - canvas.offsetLeft;
      relativeY = e.clientY - canvas.offsetTop;
 
@@ -98,8 +109,8 @@ mousedownBool=true;
     }
     
     
-});
-document.addEventListener('mouseup', e => {
+}
+function mouseUpHandler(e) {
 mousedownBool=false;
 
 relativeX = e.clientX - canvas.offsetLeft;
@@ -114,18 +125,18 @@ relativeX = e.clientX - canvas.offsetLeft;
          boardSquares[selection] = fromValue;
          draggedPiece=-1;
      }
-
+        if(relativeX<=boardResolution){
      drawBackground();
      for(var i=0;i<=64-1;i++){
             var squareX=(i % 8);
             var squareY = Math.floor(i/8);
             if((boardSquares[i]!=0)&& draggedPiece !=i){
                 ctx.drawImage(pieces[boardSquares[i]],squareX*boardResolution/8, squareY*boardResolution/8, boardResolution/8, boardResolution/8);
-            }
+            }}
 
         }
 
-});
+}
 
 
 
