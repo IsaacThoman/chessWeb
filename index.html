@@ -37,7 +37,7 @@ boardSquares[i]=0;
     var pieces = new Array();
     for (let i = 1; i <= 12; i++) {
         pieces[i] = new Image();
-    pieces[i].src = 'https://cdn.hobbot.xyz/chessResources/'+i+'.png';
+    pieces[i].src = 'resources/'+i+'.png';
     }
 
 
@@ -58,17 +58,8 @@ function renderStills(){
 
 
 }
-
-document.addEventListener("mousemove", mouseMoveHandler, false);
-document.addEventListener("mousedown", mouseDownHandler, false);
-document.addEventListener("mouseup", mouseUpHandler, false);
-
-function mouseMoveHandler(e) {
-     relativeX = e.clientX - canvas.offsetLeft;
-     relativeY = e.clientY - canvas.offsetTop;
-
-        //cursor icon handling
-        var selectionX = Math.ceil(relativeX/boardResolution*8)-1;
+function updateCursorIcon(){
+    var selectionX = Math.ceil(relativeX/boardResolution*8)-1;
      var selectionY = Math.ceil(relativeY/boardResolution*8)-1;
      var selection = (((selectionY*8)-1)+selectionX)+1;
      if(mousedownBool && draggedPiece>0){
@@ -79,10 +70,16 @@ function mouseMoveHandler(e) {
      }else{
         document.body.style.cursor = 'default';
      }
-        
+}
 
-     //cursor stuff done
+document.addEventListener("mousemove", mouseMoveHandler, false);
+document.addEventListener("mousedown", mouseDownHandler, false);
+document.addEventListener("mouseup", mouseUpHandler, false);
 
+function mouseMoveHandler(e) {
+     relativeX = e.clientX - canvas.offsetLeft;
+     relativeY = e.clientY - canvas.offsetTop;
+updateCursorIcon();
     if(mousedownBool&&mouseOnBoard(e)){
 
         drawBackground();
@@ -112,6 +109,7 @@ var draggedPiece=15;
 
 function mouseDownHandler(e){
 mousedownBool=true;
+
 //console.log(e.clientX);
     relativeX = e.clientX - canvas.offsetLeft;
      relativeY = e.clientY - canvas.offsetTop;
@@ -126,12 +124,12 @@ mousedownBool=true;
         draggedPiece = selection;
         
     }
-    
+    updateCursorIcon();
     
 }
 function mouseUpHandler(e) {
 mousedownBool=false;
-
+updateCursorIcon();
 relativeX = e.clientX - canvas.offsetLeft;
      relativeY = e.clientY - canvas.offsetTop;
 
@@ -170,13 +168,13 @@ function drawBackground(){
 if((squareX+squareY)%2){
     ctx.beginPath();
  ctx.rect(squareX*boardResolution/8, squareY*boardResolution/8, boardResolution/8, boardResolution/8);
-                 ctx.fillStyle = "#8B0000";
+                 ctx.fillStyle = "#779AAF";
                  ctx.fill();       
             ctx.closePath();
 }else{
     ctx.beginPath();
  ctx.rect(squareX*boardResolution/8, squareY*boardResolution/8, boardResolution/8, boardResolution/8);
-                 ctx.fillStyle = "#314FB3";
+                 ctx.fillStyle = "#d5E1E5";
                  ctx.fill();       
             ctx.closePath();
             
