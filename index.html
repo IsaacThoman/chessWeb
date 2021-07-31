@@ -23,9 +23,35 @@ boardSquares[i]=0;
         if((squareY==6)){
             boardSquares[i]=1;
        }
-       
-}
+       if((squareY==1)){
+            boardSquares[i]=7;
+       }
+       switch(i) {
+    case 0:case 7:
+    boardSquares[i]=10;break;
+    case 1:case 6:
+    boardSquares[i]=9;break;
+    case 2:case 5:
+    boardSquares[i]=8;break;
 
+    case 63:case 56:
+    boardSquares[i]=4;break;
+    case 62:case 57:
+    boardSquares[i]=3;break;
+    case 61:case 58:
+    boardSquares[i]=2;break;
+    
+    case 59:
+    boardSquares[i]=5;break;
+    case 60:
+    boardSquares[i]=6;break;
+    case 3:
+    boardSquares[i]=11;break;
+    case 4:
+    boardSquares[i]=12;break;
+    
+       }
+    }
 
 
 	const canvas = document.getElementById("myCanvas");
@@ -39,7 +65,7 @@ boardSquares[i]=0;
         pieces[i] = new Image();
     pieces[i].src = 'resources/'+i+'.png';
     }
-
+    pieces[12].onload = function(){renderStills();}
 
    // ctx.drawImage(pieces[1],0, 0, boardResolution/8, boardResolution/8);
 
@@ -55,7 +81,12 @@ var relativeX = 0;
 var relativeY = 0;
 var mousedownBool = false;
 function renderStills(){
-
+    for(var i=0;i<=64-1;i++){
+            var squareX=(i % 8);
+            var squareY = Math.floor(i/8);
+            if((boardSquares[i]!=0)&& draggedPiece !=i){
+                ctx.drawImage(pieces[boardSquares[i]],squareX*boardResolution/8, squareY*boardResolution/8, boardResolution/8, boardResolution/8);
+            }}
 
 }
 function updateCursorIcon(){
@@ -83,18 +114,18 @@ updateCursorIcon();
     if(mousedownBool&&mouseOnBoard(e)){
 
         drawBackground();
-        if(draggedPiece>=0){
+
+
+renderStills();
+//above draws still pieces
+
+//below draws grabbed piece
+
+if(draggedPiece>=0){
         ctx.drawImage(pieces[boardSquares[draggedPiece]],relativeX-boardResolution/16, relativeY-boardResolution/16, boardResolution/8, boardResolution/8);
         }
 
-        for(var i=0;i<=64-1;i++){
-            var squareX=(i % 8);
-            var squareY = Math.floor(i/8);
-            if((boardSquares[i]!=0)&& draggedPiece !=i){
-                ctx.drawImage(pieces[boardSquares[i]],squareX*boardResolution/8, squareY*boardResolution/8, boardResolution/8, boardResolution/8);
-            }
 
-        }
     }
 }
 function mouseOnBoard(e){
@@ -136,12 +167,12 @@ relativeX = e.clientX - canvas.offsetLeft;
      var selectionX = Math.ceil(relativeX/boardResolution*8)-1;
      var selectionY = Math.ceil(relativeY/boardResolution*8)-1;
      var selection = (((selectionY*8)-1)+selectionX)+1;;
-     if(draggedPiece>=0){
+     if(draggedPiece>=0&&rulebook(draggedPiece,selection)){
          var fromValue = boardSquares[draggedPiece];
          boardSquares[draggedPiece]=0;
          boardSquares[selection] = fromValue;
-         draggedPiece=-1;
-     }
+ }
+     draggedPiece=-1;
         if(relativeX<=boardResolution){
      drawBackground();
      for(var i=0;i<=64-1;i++){
@@ -155,6 +186,11 @@ relativeX = e.clientX - canvas.offsetLeft;
 
 }
 
+function rulebook(source,destination){
+
+return true;
+
+}
 
 
 
