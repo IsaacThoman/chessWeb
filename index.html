@@ -186,9 +186,34 @@ relativeX = e.clientX - canvas.offsetLeft;
 
 }
 
-function rulebook(source,destination){
+function getPiece(myx,myy){
+return boardSquares[(((myy*8))+myx)];
+}
 
-return true;
+function rulebook(source,destination){
+    var sourceX=(source % 8);
+    var sourceY = Math.floor(source/8);
+    var destX=(destination % 8);
+    var destY = Math.floor(destination/8);
+
+
+
+    if(boardSquares[source]==1&&sourceX==destX){
+        if(sourceY==destY+1&&getPiece(destX,destY)==0){
+        return true;    //normal forward
+            }
+
+            if(sourceY==6 && destY==4 &&getPiece(destX,4)==0&&getPiece(destX,5)==0){
+            return true;
+            }
+
+
+
+    }
+
+
+    
+return false;
 
 }
 
