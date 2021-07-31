@@ -65,6 +65,16 @@ boardSquares[i]=0;
         pieces[i] = new Image();
     pieces[i].src = 'resources/'+i+'.png';
     }
+    pieces[13] = new Image();
+    pieces[14] = new Image();
+    pieces[15] = new Image();
+    pieces[16] = new Image();
+    
+    pieces[13].src = 'resources/legalMoveDot.png';
+    pieces[14].src = 'resources/redDot.png';
+    pieces[15].src = 'resources/sword.png';
+    pieces[16].src = 'resources/sword_b.png';
+
     pieces[12].onload = function(){renderStills();}
 
    // ctx.drawImage(pieces[1],0, 0, boardResolution/8, boardResolution/8);
@@ -115,6 +125,16 @@ updateCursorIcon();
 
         drawBackground();
 
+//Draws legal move dots
+updateLegalMoves();
+        for(var i=0;i<=legalMovesToShow.length;i++){
+            
+            var squareX=(legalMovesToShow[i] % 8);
+            var squareY = Math.floor(legalMovesToShow[i]/8);
+          ctx.drawImage(pieces[13],squareX*boardResolution/8, squareY*boardResolution/8, boardResolution/8, boardResolution/8);
+        }
+
+
 
 renderStills();
 //above draws still pieces
@@ -123,7 +143,7 @@ renderStills();
 
 if(draggedPiece>=0){
         ctx.drawImage(pieces[boardSquares[draggedPiece]],relativeX-boardResolution/16, relativeY-boardResolution/16, boardResolution/8, boardResolution/8);
-        }
+    }
 
 
     }
@@ -153,10 +173,23 @@ mousedownBool=true;
         draggedPiece=-1;
     }else{
         draggedPiece = selection;
-        
+        updateLegalMoves(selection);
     }
     updateCursorIcon();
     
+}
+
+var legalMovesToShow = [0,15,23,47];
+function updateLegalMoves(){
+legalMovesToShow = [];
+for(var i=0;i<=64;i++){
+    if(rulebook(draggedPiece,i)){
+        legalMovesToShow.push(i);
+    }
+
+}
+    
+
 }
 function mouseUpHandler(e) {
 mousedownBool=false;
