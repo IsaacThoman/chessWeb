@@ -10,9 +10,10 @@
 </head>
 <body>
 
-    <canvas id="myCanvas" width="512" height="512"></canvas>
+    <canvas id="myCanvas" width="768" height="768"></canvas>
 
 <script>
+    
 // ---------Board Representation
 var boardSquares = [];
 for (var i=0;i<=64;i++) {
@@ -65,8 +66,25 @@ document.addEventListener("mouseup", mouseUpHandler, false);
 function mouseMoveHandler(e) {
      relativeX = e.clientX - canvas.offsetLeft;
      relativeY = e.clientY - canvas.offsetTop;
-    if(mousedownBool&&mouseOnBoard(e)){
+
+        //cursor icon handling
+        var selectionX = Math.ceil(relativeX/boardResolution*8)-1;
+     var selectionY = Math.ceil(relativeY/boardResolution*8)-1;
+     var selection = (((selectionY*8)-1)+selectionX)+1;
+     if(mousedownBool && draggedPiece>0){
+        document.body.style.cursor = 'grabbing';
+     }
+     else if (boardSquares[selection]>0){
+        document.body.style.cursor = 'grab';
+     }else{
+        document.body.style.cursor = 'default';
+     }
         
+
+     //cursor stuff done
+
+    if(mousedownBool&&mouseOnBoard(e)){
+
         drawBackground();
         if(draggedPiece>=0){
         ctx.drawImage(pieces[boardSquares[draggedPiece]],relativeX-boardResolution/16, relativeY-boardResolution/16, boardResolution/8, boardResolution/8);
@@ -94,18 +112,19 @@ var draggedPiece=15;
 
 function mouseDownHandler(e){
 mousedownBool=true;
-console.log(e.clientX);
+//console.log(e.clientX);
     relativeX = e.clientX - canvas.offsetLeft;
      relativeY = e.clientY - canvas.offsetTop;
 
      var selectionX = Math.ceil(relativeX/boardResolution*8)-1;
      var selectionY = Math.ceil(relativeY/boardResolution*8)-1;
 
-    var selection = (((selectionY*8)-1)+selectionX)+1;;
+    var selection = (((selectionY*8)-1)+selectionX)+1;
     if(boardSquares[selection]==0){
         draggedPiece=-1;
     }else{
         draggedPiece = selection;
+        
     }
     
     
@@ -167,6 +186,8 @@ bgSquare +=1;
  
 }
 }
+drawBackground();
+
 </script>
 
 
