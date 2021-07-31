@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <title>Gamedev Canvas Workshop</title>
+    <style>
+    	* { padding: 0; margin: 0; }
+    	canvas { background: #eee; display: block; margin: 0 auto; }
+    </style>
+</head>
+<body>
+
+    <canvas id="myCanvas" width="512" height="512"></canvas>
+
+<script>
+
+	const canvas = document.getElementById("myCanvas");
+    const ctx = canvas.getContext("2d");
+    
+    var boardResolution = canvas.width;
+
+
+    var pieces = new Array();
+    for (let i = 1; i <= 12; i++) {
+        pieces[i] = new Image();
+    pieces[i].src = 'https://cdn.hobbot.xyz/chessResources/'+i+'.png';
+    }
+
+
+   // ctx.drawImage(pieces[1],0, 0, boardResolution/8, boardResolution/8);
+
+
+
+    
+
+function draw() {
+    ctx.drawImage(pieces[1],0, 0, boardResolution/8, boardResolution/8);
+}
+//setInterval(draw, 1000);
+var relativeX = 0;
+var relativeY = 0;
+var mousedownBool = false;
+
+
+document.addEventListener("mousemove", mouseMoveHandler, false);
+function mouseMoveHandler(e) {
+     relativeX = e.clientX - canvas.offsetLeft;
+     relativeY = e.clientY - canvas.offsetTop;
+    if(mousedownBool){
+        drawBackground();
+        ctx.drawImage(pieces[1],relativeX-boardResolution/16, relativeY-boardResolution/16, boardResolution/8, boardResolution/8);
+    }
+}
+
+
+document.addEventListener('mousedown', e => {
+mousedownBool=true;
+});
+document.addEventListener('mouseup', e => {
+mousedownBool=false;
+});
+
+
+
+
+function drawBackground(){
+    var bgSquare = 0;
+    
+  while(bgSquare<=64){
+        var squareX=(bgSquare % 8);
+       var squareY = Math.floor(bgSquare/8);
+
+if((squareX+squareY)%2){
+    ctx.beginPath();
+ ctx.rect(squareX*boardResolution/8, squareY*boardResolution/8, boardResolution/8, boardResolution/8);
+                 ctx.fillStyle = "#8B0000";
+                 ctx.fill();       
+            ctx.closePath();
+}else{
+    ctx.beginPath();
+ ctx.rect(squareX*boardResolution/8, squareY*boardResolution/8, boardResolution/8, boardResolution/8);
+                 ctx.fillStyle = "#314FB3";
+                 ctx.fill();       
+            ctx.closePath();
+            
+}    
+
+bgSquare +=1;
+ 
+}
+}
+</script>
+
+
+</body>
+</html>
