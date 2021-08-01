@@ -149,20 +149,35 @@ updateCursorIcon();
 //Draws legal move dots
 updateLegalMoves();
         for(var i=0;i<=legalMovesToShow.length;i++){
-            
             var squareX=(legalMovesToShow[i] % 8);
             var squareY = Math.floor(legalMovesToShow[i]/8);
-          ctx.drawImage(pieces[13],squareX*boardResolution/8, squareY*boardResolution/8, boardResolution/8, boardResolution/8);
+            if(getPiece(squareX,squareY,boardSquares)==0){
+                ctx.drawImage(pieces[13],squareX*boardResolution/8, squareY*boardResolution/8, boardResolution/8, boardResolution/8);
+                
+            }else{
+                ctx.drawImage(pieces[14],squareX*boardResolution/8, squareY*boardResolution/8, boardResolution/8, boardResolution/8);
+            }
+          
         }
 
 
 
-renderStills();
-//above draws still pieces
+        renderStills(); //draws still pieces
 
-//below draws grabbed piece
+        for(var i=0;i<=legalMovesToShow.length;i++){  //this chunk draws the sword on attackable pieces
+            var squareX=(legalMovesToShow[i] % 8);
+            var squareY = Math.floor(legalMovesToShow[i]/8);
+            if(getPiece(squareX,squareY,boardSquares)!=0){
+                if(getPiece(squareX,squareY,boardSquares)>6){
+                ctx.drawImage(pieces[15],squareX*boardResolution/8, squareY*boardResolution/8, boardResolution/8, boardResolution/8);
+                }else{
+                    ctx.drawImage(pieces[16],squareX*boardResolution/8, squareY*boardResolution/8, boardResolution/8, boardResolution/8);
+                }
+            }
+        }
 
-if(draggedPiece>=0){
+
+if(draggedPiece>=0){//draws grabbed piece
         ctx.drawImage(pieces[boardSquares[draggedPiece]],relativeX-boardResolution/16, relativeY-boardResolution/16, boardResolution/8, boardResolution/8);
     }
 
@@ -272,7 +287,7 @@ if(sourceX==destX&&sourceY==destY){return false;}
         if((sourceY==6&&destY==4) && (getPiece(sourceX,sourceY-2,internalBoard)==0)&& (getPiece(sourceX,sourceY-1,internalBoard)==0)){return true;}
         if((sourceY-1==destY) && (getPiece(sourceX,sourceY-1,internalBoard)==0)){return true;}//forward movement
     }
-    if(((sourceX+1==destX && sourceY-1==destY )||(sourceX-1==destX && sourceY-1==destY))&& getPiece(destX,destY,internalBoard)!=0){return true;}
+    if(((sourceX+1==destX && sourceY-1==destY )||(sourceX-1==destX && sourceY-1==destY))&& getPiece(destX,destY,internalBoard)>6){return true;} //attacks
 
     }
 
