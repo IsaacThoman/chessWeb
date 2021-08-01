@@ -55,16 +55,22 @@ boardSquares[i]=0;
     function boardSquaresReversed(){
         var reversed = [];
         for (var i=0;i<=63;i++) {
-            
-            reversed.unshift(boardSquares[i]);
-
-        }
+            switch(boardSquares[i]){
+                case 0: reversed.unshift(0); break;
+                case 1: reversed.unshift(7); break;
+                case 2: reversed.unshift(8); break;
+                case 3: reversed.unshift(9); break;
+                case 4: reversed.unshift(10); break;
+                case 5: reversed.unshift(11); break;
+                case 6: reversed.unshift(12); break;
+                case 7: reversed.unshift(1); break;
+                case 8: reversed.unshift(2); break;
+                case 9: reversed.unshift(3); break;
+                case 10: reversed.unshift(4); break;
+                case 11: reversed.unshift(5); break;
+                case 12: reversed.unshift(6); break;
+            }}
         
-        var reversed2 = [];
-        for (var i=0;i<=64;i++) {
-            var tester = reversed[i];
-
-        }
         return reversed;
     }
 
@@ -218,7 +224,9 @@ relativeX = e.clientX - canvas.offsetLeft;
      if(draggedPiece>=0&&rulebook(draggedPiece,selection)){
          var fromValue = boardSquares[draggedPiece];
          boardSquares[draggedPiece]=0;
-         boardSquares[selection] = fromValue;
+         boardSquares[selection] = fromValue;//A MOVE HAS BEEN MADE HERE
+        whitesMove=!whitesMove;
+
  }
      draggedPiece=-1;
         if(relativeX<=boardResolution){
@@ -234,30 +242,37 @@ relativeX = e.clientX - canvas.offsetLeft;
 
 }
 
-function getPiece(myx,myy){
-return boardSquares[(((myy*8))+myx)];
+function getPiece(myx,myy,board){
+return board[(((myy*8))+myx)];
 }
 
+var whitesMove = true;
 function rulebook(source,destination){
+
+    var internalBoard = boardSquares;
+    if(!whitesMove){internalBoard=boardSquaresReversed()}
+
+if(!whitesMove){
+    source=63-source;
+   destination=63-destination;
+}
     var sourceX=(source % 8);
     var sourceY = Math.floor(source/8);
     var destX=(destination % 8);
     var destY = Math.floor(destination/8);
 
-if (boardSquares[source]==0){
+
+if (internalBoard[source]==0){
     return false;
 }
+if(sourceX==destX&&sourceY==destY){return false;}
 
-    if(boardSquares[source]==1&&sourceX==destX){//pawns
-        if(sourceY==destY+1&&getPiece(destX,destY)==0){
-        return true;    //normal forward
-            }
-
-            if(sourceY==6 && destY==4 &&getPiece(destX,4)==0&&getPiece(destX,5)==0){
-            return true;
-            }
-
-
+    if(internalBoard[source]==1){//pawns
+    if(sourceX==destX){
+        if((sourceY==6&&destY==4) && (getPiece(sourceX,sourceY-2,internalBoard)==0)&& (getPiece(sourceX,sourceY-1,internalBoard)==0)){return true;}
+        if((sourceY-1==destY) && (getPiece(sourceX,sourceY-1,internalBoard)==0)){return true;}//forward movement
+    }
+    if(((sourceX+1==destX && sourceY-1==destY )||(sourceX-1==destX && sourceY-1==destY))&& getPiece(destX,destY,internalBoard)!=0){return true;}
 
     }
 
