@@ -52,6 +52,21 @@ boardSquares[i]=0;
     
        }
     }
+    function boardSquaresReversed(){
+        var reversed = [];
+        for (var i=0;i<=63;i++) {
+            
+            reversed.unshift(boardSquares[i]);
+
+        }
+        
+        var reversed2 = [];
+        for (var i=0;i<=64;i++) {
+            var tester = reversed[i];
+
+        }
+        return reversed;
+    }
 
 
 	const canvas = document.getElementById("myCanvas");
@@ -229,9 +244,11 @@ function rulebook(source,destination){
     var destX=(destination % 8);
     var destY = Math.floor(destination/8);
 
+if (boardSquares[source]==0){
+    return false;
+}
 
-
-    if(boardSquares[source]==1&&sourceX==destX){
+    if(boardSquares[source]==1&&sourceX==destX){//pawns
         if(sourceY==destY+1&&getPiece(destX,destY)==0){
         return true;    //normal forward
             }
@@ -245,7 +262,6 @@ function rulebook(source,destination){
     }
 
 
-    
 return false;
 
 }
