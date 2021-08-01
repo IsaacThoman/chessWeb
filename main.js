@@ -265,6 +265,8 @@ if(!whitesMove){
 if (internalBoard[source]==0){
     return false;
 }
+if(getPiece(destX,destY,internalBoard)<=6&&getPiece(destX,destY,internalBoard)!=0){return false;}//doesn't let you self-attack
+
 if(sourceX==destX&&sourceY==destY){return false;}
 
     if(internalBoard[source]==1){//pawns
@@ -274,7 +276,37 @@ if(sourceX==destX&&sourceY==destY){return false;}
     }
     if(((sourceX+1==destX && sourceY-1==destY )||(sourceX-1==destX && sourceY-1==destY))&& getPiece(destX,destY,internalBoard)>6){return true;} //attacks
 
+    }//closing pawns
+
+    if(internalBoard[source]==6){//king
+        if(Math.abs(sourceX-destX)<=1&&Math.abs(sourceY-destY)<=1&&(getPiece(destX,destY,internalBoard)>6||getPiece(destX,destY,internalBoard)==0)){
+return true;
+        }
     }
+
+    if(internalBoard[source]==2){//bishop
+
+    if(Math.abs(sourceX-destX) != Math.abs(sourceY - destY)){return false;} //fails if not perfectly diagonal
+        
+    if(getPiece(destX,destY,internalBoard)==0 | getPiece(destX, destY,internalBoard) > 6){
+        var scanDirX=0;
+        var scanDirY=0;
+        if (sourceX > destX){scanDirX = 0 - 1;}
+        else{scanDirX = 1;}
+        if (sourceY > destY){scanDirY = 0 - 1;}
+        else{scanDirY = 1;}
+
+
+            return true;
+        
+
+        
+    
+    }
+
+    }
+
+
 
 
 return false;
