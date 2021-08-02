@@ -106,7 +106,14 @@ function renderStills(){
             var squareY = Math.floor(i/8);
             if((boardSquares[i]!=0)&& draggedPiece !=i){
                 ctx.drawImage(pieces[boardSquares[i]],squareX*boardResolution/8, squareY*boardResolution/8, boardResolution/8, boardResolution/8);
-            }}
+            }
+            if(draggedPiece==i){
+        //        ctx.drawImage(pieces[boardSquares[i]],squareX*boardResolution/8, squareY*boardResolution/8, boardResolution/8, boardResolution/8);
+
+        //pout le ghost heeere
+            }
+        }
+
 
 }
 function updateCursorIcon(){
