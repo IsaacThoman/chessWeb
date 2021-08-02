@@ -314,8 +314,20 @@ return true;
         if (sourceY > destY){scanDirY = 0 - 1;}
         else{scanDirY = 1;}
 
+        var distance = Math.abs(sourceX-sourceY);
+        for(var i=1;i<=distance-1;i+=1){
+            var posX = sourceX + (i*scanDirX);
+            var posY = sourceY + (i*scanDirY);
+            if(getPiece(posX,posY,internalBoard)!=0){
+                
+                return false;
+                
+            }
+            
+        }
+        return true;
 
-            return true;
+            
         
 
         
