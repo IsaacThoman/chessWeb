@@ -150,7 +150,7 @@ updateCursorIcon();
         drawBackground();
 
 //Draws legal move dots
-updateLegalMoves();
+//updateLegalMoves(); //can probably stay commented?
         for(var i=0;i<=legalMovesToShow.length;i++){
             var squareX=(legalMovesToShow[i] % 8);
             var squareY = Math.floor(legalMovesToShow[i]/8);
@@ -212,14 +212,16 @@ mousedownBool=true;
         draggedPiece=-1;
     }else{
         draggedPiece = selection;
-        updateLegalMoves(selection);
+        
     }
+    updateLegalMoves(selection);
     updateCursorIcon();
     
 }
 
 var legalMovesToShow = [0,15,23,47];
 function updateLegalMoves(){
+    console.log('updating legal moves');
 legalMovesToShow = [];
 for(var i=0;i<=64;i++){
     if(rulebook(draggedPiece,i)){
@@ -319,20 +321,18 @@ return true;
             var posX = sourceX + (i*scanDirX);
             var posY = sourceY + (i*scanDirY);
             if(getPiece(posX,posY,internalBoard)!=0){return false;}
-            
         }
         return true;
+    }}
 
-            
-        
+    if(internalBoard[source]==3){
+        if((Math.abs(sourceX-destX)==2&&Math.abs(sourceY-destY)==1)||(Math.abs(sourceX-destX)==1&&Math.abs(sourceY-destY)==2)){
+            return true;
+        }else{
+            return false;
+        }
 
-        
-    
     }
-
-    }
-
-
 
 
 return false;
