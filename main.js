@@ -108,8 +108,15 @@ function renderStills(){
                 ctx.drawImage(pieces[boardSquares[i]],squareX*boardResolution/8, squareY*boardResolution/8, boardResolution/8, boardResolution/8);
             }
             if(draggedPiece==i){
-        //        ctx.drawImage(pieces[boardSquares[i]],squareX*boardResolution/8, squareY*boardResolution/8, boardResolution/8, boardResolution/8);
-
+                ctx.beginPath();
+                ctx.rect(squareX*boardResolution/8, squareY*boardResolution/8, boardResolution/8, boardResolution/8);
+                                ctx.fillStyle = "#b1d0e3";
+                                ctx.fill();       
+                           ctx.closePath();
+                           
+                ctx.globalAlpha = 0.3;
+                ctx.drawImage(pieces[boardSquares[i]],squareX*boardResolution/8, squareY*boardResolution/8, boardResolution/8, boardResolution/8);
+                ctx.globalAlpha =1;
         //pout le ghost heeere
             }
         }
@@ -188,7 +195,7 @@ return true;
      }
      return false;
 }
-var draggedPiece=15;
+var draggedPiece=-1;
 
 function mouseDownHandler(e){
 mousedownBool=true;
