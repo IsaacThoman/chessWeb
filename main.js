@@ -421,8 +421,8 @@ return true;
     }
 
     if(internalBoard[source]==3){//knight
-        if((Math.abs(sourceX-destX)==2&&Math.abs(sourceY-destY)==1)||(Math.abs(sourceX-destX)==1&&Math.abs(sourceY-destY)==2)){if(!bishopLegalSet){bishopLegal=true;bishopLegalSet=true;}}if(!bishopLegalSet){bishopLegal=false;bishopLegalSet=true;};
-    }
+        if((Math.abs(sourceX-destX)==2&&Math.abs(sourceY-destY)==1)||(Math.abs(sourceX-destX)==1&&Math.abs(sourceY-destY)==2)){return true;}return false;
+     }
 
 
 return false;
