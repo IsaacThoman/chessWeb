@@ -221,7 +221,6 @@ mousedownBool=true;
 
 var legalMovesToShow = [0,15,23,47];
 function updateLegalMoves(){
-    console.log('updating legal moves');
 legalMovesToShow = [];
 for(var i=0;i<=64;i++){
     if(rulebook(draggedPiece,i)){
@@ -286,7 +285,8 @@ if (internalBoard[source]==0){
     return false;
 }
 if(getPiece(destX,destY,internalBoard)<=6&&getPiece(destX,destY,internalBoard)!=0){return false;}//doesn't let you self-attack
-
+if(sourceX<0||sourceY<0||sourceX>=8||sourceY>=8){return false;}
+if(destX<0||destY<0||destX>=8||destY>=8){return false;}
 if(sourceX==destX&&sourceY==destY){return false;}
 
     if(internalBoard[source]==1){//pawns
@@ -317,6 +317,7 @@ return true;
         else{scanDirY = 1;}
 
         var distance = Math.abs(sourceX-destX);
+
         for(var i=1;i<=distance-1;i+=1){
             var posX = sourceX + (i*scanDirX);
             var posY = sourceY + (i*scanDirY);
@@ -325,13 +326,38 @@ return true;
         return true;
     }}
 
-    if(internalBoard[source]==3){
-        if((Math.abs(sourceX-destX)==2&&Math.abs(sourceY-destY)==1)||(Math.abs(sourceX-destX)==1&&Math.abs(sourceY-destY)==2)){
-            return true;
-        }else{
-            return false;
-        }
+    if(internalBoard[source]==4){//rook
+        var scanDirX=0;
+        var scanDirY=0;
+        if (sourceX > destX){scanDirX = 0 - 1;}
+        if(sourceX < destX){scanDirX = 1;}
+        if(sourceX == destX){scanDirX = 0;}
+        if (sourceY > destY){scanDirY = 0 - 1;}
+        if(sourceY < destY){scanDirY = 1;}
+        if(sourceY == destY){scanDirY = 0;}
+        if(scanDirX!=0 &&scanDirY!=0){return false;}
 
+        var distance = 0;
+        if(destY!=sourceY){
+            distance=Math.abs(sourceY-destY);}
+            else{
+                distance=Math.abs(sourceX-destX);
+            }
+        
+        for(var i=1;i<=distance-1;i+=1){
+            var posX = sourceX + (i*scanDirX);
+            var posY = sourceY + (i*scanDirY);
+            if(getPiece(posX,posY,internalBoard)!=0){
+                
+             //   console.log('Returned false for '+sourceX+','+sourceY+' to '+destX+','+destY+' because of piece at '+posX+','+posY+'. i='+i+', distance='+distance)
+                return false;}
+            
+        }
+        return true;
+    }
+
+    if(internalBoard[source]==3){//knight
+        if((Math.abs(sourceX-destX)==2&&Math.abs(sourceY-destY)==1)||(Math.abs(sourceX-destX)==1&&Math.abs(sourceY-destY)==2)){return true;}return false;
     }
 
 
