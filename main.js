@@ -124,6 +124,7 @@ function renderStills(){
 
 }
 function updateCursorIcon(){
+    if(relativeX>=0 &&relativeX<=boardResolution&&relativeY>=0 &&relativeY<=boardResolution){
     var selectionX = Math.ceil(relativeX/boardResolution*8)-1;
      var selectionY = Math.ceil(relativeY/boardResolution*8)-1;
      var selection = (((selectionY*8)-1)+selectionX)+1;
@@ -135,6 +136,9 @@ function updateCursorIcon(){
      }else{
         document.body.style.cursor = 'default';
      }
+    }else{document.body.style.cursor = 'default';}
+
+    
 }
 
 document.addEventListener("mousemove", mouseMoveHandler, false);
@@ -199,7 +203,7 @@ var draggedPiece=-1;
 
 function mouseDownHandler(e){
 mousedownBool=true;
-
+boardResolution = canvas.width;
 //console.log(e.clientX);
     relativeX = e.clientX - canvas.offsetLeft;
      relativeY = e.clientY - canvas.offsetTop;
@@ -216,7 +220,7 @@ mousedownBool=true;
     }
     updateLegalMoves(selection);
     updateCursorIcon();
-    
+
 }
 
 var legalMovesToShow = [0,15,23,47];
