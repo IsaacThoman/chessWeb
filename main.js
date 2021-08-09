@@ -227,7 +227,7 @@ var legalMovesToShow = [0,15,23,47];
 function updateLegalMoves(){
 legalMovesToShow = [];
 for(var i=0;i<=64;i++){
-    if(rulebook(draggedPiece,i)){
+    if(rulebook(draggedPiece,i,boardSquares,whitesMoveStored)){
         legalMovesToShow.push(i);
     }
 
@@ -244,11 +244,12 @@ relativeX = e.clientX - canvas.offsetLeft;
      var selectionX = Math.ceil(relativeX/boardResolution*8)-1;
      var selectionY = Math.ceil(relativeY/boardResolution*8)-1;
      var selection = (((selectionY*8)-1)+selectionX)+1;;
-     if(draggedPiece>=0&&rulebook(draggedPiece,selection)){
+     if(draggedPiece>=0&&rulebook(draggedPiece,selection,boardSquares,whitesMoveStored)&&checkCheck(draggedPiece,selection)){
          var fromValue = boardSquares[draggedPiece];
          boardSquares[draggedPiece]=0;
          boardSquares[selection] = fromValue;//A MOVE HAS BEEN MADE HERE
-        whitesMove=!whitesMove;
+        whitesMoveStored=!whitesMoveStored;
+
 
  }
      draggedPiece=-1;
@@ -268,11 +269,37 @@ relativeX = e.clientX - canvas.offsetLeft;
 function getPiece(myx,myy,board){
 return board[(((myy*8))+myx)];
 }
+function checkCheck(sourceMe,destinationMe){
+    var internalBoard = Object.assign([], boardSquares);
 
-var whitesMove = true;
-function rulebook(source,destination){
+    var fromValue = boardSquares[sourceMe];
+    internalBoard[sourceMe]=0;
+    internalBoard[destinationMe] = fromValue;
 
-    var internalBoard = boardSquares;
+
+
+    for(var sourceI=0;sourceI<=63;sourceI++){
+        for(var destI=0;destI<=63;destI++){
+            internalBoard = Object.assign([], boardSquares);
+
+    var fromValue = boardSquares[sourceMe];
+    internalBoard[sourceMe]=0;
+    internalBoard[destinationMe] = fromValue;
+        if(rulebook(sourceI,destI,internalBoard,!whitesMoveStored)){
+        if(destI==internalBoard.indexOf(6)){
+        return false;
+        }
+
+
+        }
+        }
+    }
+    return true;
+}
+var whitesMoveStored = true;
+function rulebook(source,destination,board,whitesMove){
+
+    var internalBoard = board;
     if(!whitesMove){internalBoard=boardSquaresReversed()}
 
 if(!whitesMove){
@@ -456,5 +483,59 @@ if((squareX+squareY)%2){
 bgSquare +=1;
  
 }
+}
+
+function stringToBoard(input){
+    var boardSquaresInt = []
+    for (var i=0;i<=64;i++) {
+        switch(input[i]) {
+            case '0': boardSquaresInt.unshift(0); break;
+            case '1': boardSquaresInt.unshift(1); break;
+            case '2': boardSquaresInt.unshift(2); break;
+            case '3': boardSquaresInt.unshift(3); break;
+            case '4': boardSquaresInt.unshift(4); break;
+            case '5': boardSquaresInt.unshift(5); break;
+            case '6': boardSquaresInt.unshift(6); break;
+            case '7': boardSquaresInt.unshift(7); break;
+            case '8': boardSquaresInt.unshift(8); break;
+            case '9': boardSquaresInt.unshift(9); break;
+            case 'a': boardSquaresInt.unshift(10); break;
+            case 'b': boardSquaresInt.unshift(11); break;
+            case 'c': boardSquaresInt.unshift(12); break;
+        }}
+    var boardSquaresInt2 = []
+    for (var xS=0;xS<=7;xS++) {
+        for (var yS=0;yS<=7;yS++) {
+            boardSquaresInt2[(((yS*8))+xS)] = boardSquaresInt[(((yS*8))+7-xS)];
+        }}
+    return boardSquaresInt2;
+}
+
+function boardToString(input){
+    var boardSquaresInt2 = []
+    for (var xS=0;xS<=7;xS++) {
+        for (var yS=0;yS<=7;yS++) {
+            boardSquaresInt2[(((yS*8))+xS)] = input[((((7-yS)*8))+xS)];
+        }}
+
+    var outString1 = ''
+    for (var i=0;i<=64;i++) {
+    switch(boardSquaresInt2[i]) {
+        case 0: outString1 = outString1.concat('0'); break;
+        case 1: outString1 = outString1.concat('1'); break;
+        case 2: outString1 = outString1.concat('2'); break;
+        case 3: outString1 = outString1.concat('3'); break;
+        case 4: outString1 = outString1.concat('4'); break;
+        case 5: outString1 = outString1.concat('5'); break;
+        case 6: outString1 = outString1.concat('6'); break;
+        case 7: outString1 = outString1.concat('7'); break;
+        case 8: outString1 = outString1.concat('8'); break;
+        case 9: outString1 = outString1.concat('9'); break;
+        case 10: outString1 = outString1.concat('a'); break;
+        case 11: outString1 = outString1.concat('b'); break;
+        case 12: outString1 = outString1.concat('c'); break;
+    }}
+    return outString1;
+
 }
 drawBackground();

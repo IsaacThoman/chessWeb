@@ -1,0 +1,5 @@
+X,Y to i
+(((Y*8))+X)
+
+X = (i % 8)
+Y = Math.floor(i/8)
