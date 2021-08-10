@@ -110,7 +110,7 @@ function renderStills(){
     for(var i=0;i<=64-1;i++){
             var squareX=(i % 8);
             var squareY = Math.floor(i/8);
-            if((boardSquares[i]!=0)&& draggedPiece !=i){
+            if((boardSquares[i]!=0)&& draggedPiece !=i&&pieceBeingAnimated!=i){
                 ctx.drawImage(pieces[boardSquares[i]],squareX*boardResolution/8, squareY*boardResolution/8, boardResolution/8, boardResolution/8);
             }
             if(draggedPiece==i){
@@ -606,10 +606,11 @@ function onlineScanning(){
 
 
                    frameNumber=0;
+                    animPiece = pieces[change[0]]
                        animationTimer = window.setInterval(function(){
 
-                            showFrame(change[1],change[2],change[0]);
-                       }, 100);
+                            showFrame(change[0],change[1],change[2]);
+                       }, 32);
 
 
                }
@@ -617,17 +618,40 @@ function onlineScanning(){
         xhr.send();
     }
 }
-    var frameNumber = 0;
+var frameNumber = 0;
 var animationTimer = null;
-
-    function showFrame(fromPos,toPos,Piece){
-        drawBackground()
+var animPiece = 0;
+var framesInAnimation = 20;
+var pieceBeingAnimated = -1;
+    function showFrame(fromPos,toPos,movedPiece){
         frameNumber+=1;
-if(frameNumber>=10){
-    clearInterval(animationTimer);
-drawBackground();
-renderStills();
-}
+        if(frameNumber>=framesInAnimation){
+            pieceBeingAnimated = -1;
+            clearInterval(animationTimer);
+            drawBackground();
+            renderStills();
+        }
+
+        drawBackground()
+        pieceBeingAnimated = toPos;
+        renderStills()
+
+        var myFromX = (fromPos % 8);
+        var myFromY = Math.floor(fromPos/8);
+        var myToX = (toPos % 8);
+        var myToY = Math.floor(toPos/8);
+
+        var animStartX = myFromX*boardResolution/8
+        var animEndX = myToX*boardResolution/8
+        var animStartY = myFromY*boardResolution/8
+        var animEndY = myToY*boardResolution/8
+
+        var thisFrameX = animStartX+((animEndX-animStartX)*frameNumber/framesInAnimation);
+        var thisFrameY = animStartY+((animEndY-animStartY)*frameNumber/framesInAnimation);
+        //console.log(thisFrameX)
+        ctx.drawImage(pieces[movedPiece],thisFrameX,thisFrameY, boardResolution/8, boardResolution/8);
+
+
 
     }
 
