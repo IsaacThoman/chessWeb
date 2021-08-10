@@ -42,6 +42,18 @@ function resetBoard(){
     whitesMoveStored=true;
     drawBackground();
     renderStills();
+    if(document.getElementById('onlineRadio').checked){
+        var boardToUpload = 'w43256234111111110000000000000000000000000000000077777777a98bc89aSTOP';
+        var url2 = "https://api.grobchess.com/api/chess?message=".concat(boardToUpload,'&channel=',channel);
+
+        var xhr2 = new XMLHttpRequest();
+        xhr2.open("POST", url2);
+
+        xhr2.setRequestHeader("Content-Type", "application/json");
+        //xhr2.setRequestHeader("Content-Length", "0");
+
+        xhr2.send();
+    }
 }
     function boardSquaresReversed(){
         var reversed = [];
@@ -258,7 +270,7 @@ relativeX = e.clientX - canvas.offsetLeft;
         whitesMoveStored=!whitesMoveStored;
          if(document.getElementById('onlineRadio').checked) {
             var boardToUpload = boardToString(boardSquares);
-             var url2 = "https://api.isaacthoman.me/api/chess?message=".concat(boardToUpload,'&channel=',channel);
+             var url2 = "https://api.grobchess.com/api/chess?message=".concat(boardToUpload,'&channel=',channel);
 
              var xhr2 = new XMLHttpRequest();
              xhr2.open("POST", url2);
@@ -598,7 +610,7 @@ function findMovedPiece(firstInput, secondInput){
 
 function onlineScanning(){
     if(document.getElementById('onlineRadio').checked) {
-        var apiGetUrl = "https://api.isaacthoman.me/api/chess?channel=1";
+        var apiGetUrl = "https://api.grobchess.com/api/chess?channel=1";
         var responseText = '';
         var xhr = new XMLHttpRequest();
         xhr.open("GET", apiGetUrl);
