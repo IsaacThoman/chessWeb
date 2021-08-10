@@ -484,10 +484,11 @@ if((squareX+squareY)%2){
                  ctx.fill();       
             ctx.closePath();
             
-}    
+}
 
+      ctx.strokeText(bgSquare,squareX*boardResolution/8,(Math.floor(bgSquare/8)+1)*boardResolution/8,5000)
 bgSquare +=1;
- 
+
 }
 }
 
@@ -549,6 +550,34 @@ function boardToString(input){
     return outString1.concat('STOP');
 
 }
+var letterPieceToNumber = ['0','1','2','3','4','5','6','7','8','9','a','b','c']
+function findMovedPiece(firstInput, secondInput){
+    var toPos = -1;
+    var fromPos = -1;
+    var movedPiece = 0;
+
+    for (var i=1;i<=64;i++) {
+    if(firstInput[i]!=secondInput[i]){
+    if(firstInput[i]==0){
+        fromPos=i;
+    }else{
+        toPos=i;
+        movedPiece= firstInput[i];
+    }}
+}
+    var fromX = (fromPos % 8)
+    var fromY = Math.floor(fromPos/8)
+    var toX = (toPos % 8)
+    var toY = Math.floor(toPos/8)
+    toX = 7-toX
+    fromX = 7-fromX
+    var firstReturn = (((fromY*8))+fromX)-1;
+    var secondReturn = (((toY*8))+toX)-1;
+
+    return [firstReturn,secondReturn,letterPieceToNumber.indexOf(movedPiece)];
+
+}
+
 function onlineScanning(){
     if(document.getElementById('onlineRadio').checked) {
         var apiGetUrl = "https://api.isaacthoman.me/api/chess?channel=1";
@@ -558,20 +587,48 @@ function onlineScanning(){
         xhr.onreadystatechange = function () {
             if (xhr.readyState === 4) {
                responseText = xhr.responseText;
+
                 responseText = responseText.substring(1, responseText.length-1);
                if(responseText!=boardToString(boardSquares)){
-                console.log(responseText);
-                console.log(boardToString(boardSquares))
-
-                   boardSquares = stringToBoard(responseText)
+                //console.log(responseText);
+                //console.log(boardToString(boardSquares));
+                   var change = findMovedPiece(responseText,boardToString(boardSquares));
+                   boardSquares = stringToBoard(responseText);
                     whitesMoveStored = (responseText[0]=='w');
-                   drawBackground()
-                   renderStills()
+
+                   console.log(change)
+
+
+                  // draggedPiece=change[0];
+
+
+
+                   frameNumber=0;
+                       animationTimer = window.setInterval(function(){
+
+                            showFrame(change[1],change[2],change[0]);
+                       }, 100);
+
+
                }
             }};
         xhr.send();
     }
 }
+    var frameNumber = 0;
+var animationTimer = null;
+
+    function showFrame(fromPos,toPos,Piece){
+        drawBackground()
+        frameNumber+=1;
+if(frameNumber>=10){
+    clearInterval(animationTimer);
+drawBackground();
+renderStills();
+}
+
+    }
+
 var onlineScanningTimer = window.setInterval(function(){
     onlineScanning();
 }, 3000);
