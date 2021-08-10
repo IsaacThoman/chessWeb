@@ -110,7 +110,7 @@ function renderStills(){
     for(var i=0;i<=64-1;i++){
             var squareX=(i % 8);
             var squareY = Math.floor(i/8);
-            if((boardSquares[i]!=0)&& draggedPiece !=i&&pieceBeingAnimated!=i){
+            if((boardSquares[i]!=0)&& draggedPiece !=i &&pieceBeingAnimated!=i ){
                 ctx.drawImage(pieces[boardSquares[i]],squareX*boardResolution/8, squareY*boardResolution/8, boardResolution/8, boardResolution/8);
             }
             if(draggedPiece==i){
@@ -241,6 +241,7 @@ for(var i=0;i<=64;i++){
     
 
 }
+var channel = 1;
 function mouseUpHandler(e) {
 mousedownBool=false;
 updateCursorIcon();
@@ -255,7 +256,20 @@ relativeX = e.clientX - canvas.offsetLeft;
          boardSquares[draggedPiece]=0;
          boardSquares[selection] = fromValue;//A MOVE HAS BEEN MADE HERE
         whitesMoveStored=!whitesMoveStored;
+         if(document.getElementById('onlineRadio').checked) {
+            var boardToUpload = boardToString(boardSquares);
+             var url2 = "https://api.isaacthoman.me/api/chess?message=".concat(boardToUpload,'&channel=',channel);
 
+             var xhr2 = new XMLHttpRequest();
+             xhr2.open("POST", url2);
+
+             xhr2.setRequestHeader("Content-Type", "application/json");
+             //xhr2.setRequestHeader("Content-Length", "0");
+
+             xhr2.send();
+
+
+         }
 
  }
      draggedPiece=-1;
@@ -276,6 +290,8 @@ function getPiece(myx,myy,board){
 return board[(((myy*8))+myx)];
 }
 function checkCheck(sourceMe,destinationMe){
+    //FIX THIS!!
+    return true;
     var internalBoard = Object.assign([], boardSquares);
 
     var fromValue = boardSquares[sourceMe];
@@ -626,7 +642,6 @@ var pieceBeingAnimated = -1;
     function showFrame(fromPos,toPos,movedPiece){
         frameNumber+=1;
         if(frameNumber>=framesInAnimation){
-            pieceBeingAnimated = -1;
             clearInterval(animationTimer);
             drawBackground();
             renderStills();
@@ -635,7 +650,7 @@ var pieceBeingAnimated = -1;
         drawBackground()
         pieceBeingAnimated = toPos;
         renderStills()
-
+        pieceBeingAnimated = -1;
         var myFromX = (fromPos % 8);
         var myFromY = Math.floor(fromPos/8);
         var myToX = (toPos % 8);
