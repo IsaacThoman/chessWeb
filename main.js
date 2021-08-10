@@ -535,7 +535,39 @@ function boardToString(input){
         case 11: outString1 = outString1.concat('b'); break;
         case 12: outString1 = outString1.concat('c'); break;
     }}
-    return outString1;
+    if(whitesMoveStored){
+        outString1 = 'w'.concat(outString1)
+    }else{
+        outString1 = 'b'.concat(outString1)
+    }
+    return outString1.concat('STOP');
 
 }
+function onlineScanning(){
+    if(document.getElementById('onlineRadio').checked) {
+        var apiGetUrl = "https://api.isaacthoman.me/api/chess?channel=1";
+        var responseText = '';
+        var xhr = new XMLHttpRequest();
+        xhr.open("GET", apiGetUrl);
+        xhr.onreadystatechange = function () {
+            if (xhr.readyState === 4) {
+               responseText = xhr.responseText;
+                responseText = responseText.substring(1, responseText.length-1);
+               if(responseText!=boardToString(boardSquares)){
+                console.log(responseText);
+                console.log(boardToString(boardSquares))
+
+                   boardSquares = stringToBoard(responseText)
+                    whitesMoveStored = (responseText[0]=='w');
+                   drawBackground()
+                   renderStills()
+               }
+            }};
+        xhr.send();
+    }
+}
+var onlineScanningTimer = window.setInterval(function(){
+    onlineScanning();
+}, 3000);
+
 drawBackground();

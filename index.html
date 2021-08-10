@@ -9,18 +9,33 @@
     <meta property="og:image" content="https://grobchess.com/resources/preview.png" />
     <meta property="og:description" content="Play chess online, but much funnier" />
     <meta name="theme-color" content="#fd5e1e5">
-
 <!-- Include this to make the og:image larger -->
 <meta name="twitter:card" content="summary_large_image">
    
     <style>
     	* { padding: 0; margin: 0; }
     	canvas { background: #eee; display: block; margin: 0 auto; }
+
+        .img-with-text {
+            align: right;
+
+
+
+        }
+
     </style>
 </head>
 <body>
 
     <canvas id="myCanvas" width="768" height="768"></canvas>
+
+
+
+      <input type="radio" id="localRadio" name="fav_language" value="LOCAL">
+      <label for="onlineRadio">Local</label><br>
+      <input type="radio" id="onlineRadio" name="fav_language" value="ONLINE" checked="checked">
+      <label for="onlineRadio">Online</label><br>
+
 
 <script src=main.js>
 </script>
