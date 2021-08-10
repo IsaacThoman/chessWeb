@@ -555,14 +555,16 @@ function findMovedPiece(firstInput, secondInput){
     var toPos = -1;
     var fromPos = -1;
     var movedPiece = 0;
+    firstInputB = stringToBoard(firstInput);
+    secondInputB = stringToBoard(secondInput);
 
     for (var i=1;i<=64;i++) {
-    if(firstInput[i]!=secondInput[i]){
-    if(firstInput[i]==0){
+    if(firstInputB[i]!=secondInputB[i]){
+    if(firstInputB[i]==0){
         fromPos=i;
     }else{
         toPos=i;
-        movedPiece= firstInput[i];
+        movedPiece= firstInputB[i];
     }}
 }
     var fromX = (fromPos % 8)
@@ -571,10 +573,10 @@ function findMovedPiece(firstInput, secondInput){
     var toY = Math.floor(toPos/8)
     toX = 7-toX
     fromX = 7-fromX
-    var firstReturn = (((fromY*8))+fromX)-1;
-    var secondReturn = (((toY*8))+toX)-1;
+    var firstReturn = (((fromY*8))+fromX);
+    var secondReturn = (((toY*8))+toX);
 
-    return [firstReturn,secondReturn,letterPieceToNumber.indexOf(movedPiece)];
+    return [fromPos,toPos,movedPiece];
 
 }
 
