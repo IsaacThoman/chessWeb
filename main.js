@@ -37,6 +37,12 @@ boardSquares[i]=0;
     
        }
     }
+function resetBoard(){
+    boardSquares=stringToBoard('w43256234111111110000000000000000000000000000000077777777a98bc89aSTOP');
+    whitesMoveStored=true;
+    drawBackground();
+    renderStills();
+}
     function boardSquaresReversed(){
         var reversed = [];
         for (var i=0;i<=63;i++) {
