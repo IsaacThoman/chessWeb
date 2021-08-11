@@ -235,7 +235,8 @@ boardResolution = canvas.width;
         draggedPiece=-1;
     }else{
         draggedPiece = selection;
-        
+        lastUpload = lastUpload=Math.floor((new Date()).getTime() / 1000);
+        //might not show updates until pieces are released
     }
     updateLegalMoves(selection);
     updateCursorIcon();
@@ -625,11 +626,13 @@ function onlineScanning(){
                if(responseText!=boardToString(boardSquares)){
                 //console.log(responseText);
                 //console.log(boardToString(boardSquares));
+
                    var change = findMovedPiece(responseText,boardToString(boardSquares));
+                   var landedOn = boardSquares[change[1]];
                    boardSquares = stringToBoard(responseText);
                     whitesMoveStored = (responseText[0]=='w');
 
-                   console.log(change)
+                   //console.log(landedOn)
 
 
                   // draggedPiece=change[0];
@@ -640,7 +643,7 @@ function onlineScanning(){
                     animPiece = pieces[change[0]]
                        animationTimer = window.setInterval(function(){
 
-                            showFrame(change[0],change[1],change[2]);
+                            showFrame(change[0],change[1],change[2],landedOn);
                        }, 32);
 
 
@@ -653,7 +656,7 @@ var frameNumber = 0;
 var animationTimer = null;
 var animPiece = 0;
 var pieceBeingAnimated = -1;
-    function showFrame(fromPos,toPos,movedPiece){
+    function showFrame(fromPos,toPos,movedPiece,landedOnPiece){
         frameNumber+=1;
         if(frameNumber>=framesInAnimation){
             clearInterval(animationTimer);
@@ -678,7 +681,11 @@ var pieceBeingAnimated = -1;
         var thisFrameX = animStartX+((animEndX-animStartX)*frameNumber/framesInAnimation);
         var thisFrameY = animStartY+((animEndY-animStartY)*frameNumber/framesInAnimation);
         //console.log(thisFrameX)
+        if(landedOnPiece!=0&&frameNumber<framesInAnimation){
+            ctx.drawImage(pieces[landedOnPiece],(toPos % 8)*boardResolution/8,Math.floor(toPos/8)*boardResolution/8, boardResolution/8, boardResolution/8);
+        }
         ctx.drawImage(pieces[movedPiece],thisFrameX,thisFrameY, boardResolution/8, boardResolution/8);
+        //console.log([landedOnPiece,fromPos,toPos])
 
 
 
