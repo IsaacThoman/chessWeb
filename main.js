@@ -493,7 +493,7 @@ return false;
 
 }
 
-
+debugMode = false;
 
 function drawBackground(){
     var bgSquare = 0;
@@ -517,7 +517,7 @@ if((squareX+squareY)%2){
             
 }
 
-      ctx.strokeText(bgSquare,squareX*boardResolution/8,(Math.floor(bgSquare/8)+1)*boardResolution/8,5000)
+     if(debugMode){ctx.strokeText(bgSquare,squareX*boardResolution/8,(Math.floor(bgSquare/8)+1)*boardResolution/8,5000);}
 bgSquare +=1;
 
 }
