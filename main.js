@@ -1,4 +1,5 @@
-   
+
+var framesInAnimation = 20 ;
 // ---------Board Representation
 var boardSquares = [];
 for (var i=0;i<=64;i++) {
@@ -254,6 +255,7 @@ for(var i=0;i<=64;i++){
 
 }
 var channel = 1;
+var lastUpload = 0;
 function mouseUpHandler(e) {
 mousedownBool=false;
 updateCursorIcon();
@@ -268,6 +270,7 @@ relativeX = e.clientX - canvas.offsetLeft;
          boardSquares[draggedPiece]=0;
          boardSquares[selection] = fromValue;//A MOVE HAS BEEN MADE HERE
         whitesMoveStored=!whitesMoveStored;
+        lastUpload=Math.floor((new Date()).getTime() / 1000);
          if(document.getElementById('onlineRadio').checked) {
             var boardToUpload = boardToString(boardSquares);
              var url2 = "https://api.grobchess.com/api/chess?message=".concat(boardToUpload,'&channel=',channel);
@@ -610,7 +613,7 @@ function findMovedPiece(firstInput, secondInput){
 
 function onlineScanning(){
     if(document.getElementById('onlineRadio').checked) {
-        var apiGetUrl = "https://api.grobchess.com/api/chess?channel=1";
+        var apiGetUrl = "https://api.grobchess.com/api/chess?channel=".concat(channel);
         var responseText = '';
         var xhr = new XMLHttpRequest();
         xhr.open("GET", apiGetUrl);
@@ -649,7 +652,6 @@ function onlineScanning(){
 var frameNumber = 0;
 var animationTimer = null;
 var animPiece = 0;
-var framesInAnimation = 20;
 var pieceBeingAnimated = -1;
     function showFrame(fromPos,toPos,movedPiece){
         frameNumber+=1;
@@ -683,7 +685,9 @@ var pieceBeingAnimated = -1;
     }
 
 var onlineScanningTimer = window.setInterval(function(){
-    onlineScanning();
-}, 3000);
+    if(lastUpload+3<=Math.floor((new Date()).getTime() / 1000)){
+        onlineScanning();
+    }
+}, 1000);
 
 drawBackground();
