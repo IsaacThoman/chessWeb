@@ -255,7 +255,7 @@ for(var i=0;i<=64;i++){
     
 
 }
-var channel = 1;
+var channel = 1114;
 var lastUpload = 0;
 function mouseUpHandler(e) {
 mousedownBool=false;
@@ -692,9 +692,61 @@ var pieceBeingAnimated = -1;
     }
 
 var onlineScanningTimer = window.setInterval(function(){
-    if(lastUpload+3<=Math.floor((new Date()).getTime() / 1000)){
+if(document.getElementById('usernameInput').value != localStorage.getItem("username")){
+    localStorage.setItem("username", document.getElementById('usernameInput').value);
+}
+
+    if(lastUpload+2<=Math.floor((new Date()).getTime() / 1000)){
         onlineScanning();
     }
 }, 1000);
+
+
+
+
+    function showOnlineStuff(enabled){
+        if(localStorage.getItem("username")==null){
+            localStorage.setItem("username", "");
+        }
+        document.getElementById('usernameInput').setAttribute('value', localStorage.getItem("username"));
+
+    document.getElementById('usernameInput').hidden = !enabled;
+        document.getElementById('usernameLabel').hidden = !enabled;
+        document.getElementById('createBoardBtn').hidden = !enabled;
+        document.getElementById('joinBoardBtn').hidden = !enabled;
+        document.getElementById('channelInput').hidden = !enabled;
+        if(enabled=true){
+            document.getElementById('boardCodeH1').hidden = true;
+        }
+ }
+
+function getRandomArbitrary(min, max) {
+    return Math.random() * (max - min) + min;
+}
+
+ function createBoard(){
+     document.getElementById('channelInput').value = '';
+        resetBoard();
+        drawBackground();
+        renderStills();
+     channel=Math.floor(getRandomArbitrary(1000,9999));
+     document.getElementById('boardCodeH1').hidden=false;
+     document.getElementById('boardCodeH1').textContent='Board Code: '.concat(channel);
+
+ }
+ function setChannel(){
+    var newChannel = parseInt(document.getElementById('channelInput').value);
+    document.getElementById('channelInput').value = '';
+    if(newChannel>1&&newChannel<9999){
+        resetBoard();
+        drawBackground();
+        renderStills();
+        channel=newChannel;
+        document.getElementById('boardCodeH1').hidden=false;
+        document.getElementById('boardCodeH1').textContent='Board Code: '.concat(channel);
+    }
+ }
+
+
 
 drawBackground();

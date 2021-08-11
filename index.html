@@ -16,12 +16,7 @@
     	* { padding: 0; margin: 0; }
     	canvas { background: #eee; display: block; margin: 0 auto; }
 
-        .img-with-text {
-            align: right;
 
-
-
-        }
 
     </style>
 </head>
@@ -31,12 +26,18 @@
 
 
 
-      <input type="radio" id="localRadio" name="fav_language" value="LOCAL"checked="checked">
+      <input onclick="showOnlineStuff(false);" type="radio" id="localRadio" name="fav_language" value="LOCAL"checked="checked">
       <label for="onlineRadio">Local</label><br>
-      <input type="radio" id="onlineRadio" name="fav_language" value="ONLINE">
-      <label for="onlineRadio">Online (WIP)</label><br>
-      <button onclick="resetBoard();">Reset</button>
+      <input onclick="showOnlineStuff(true);" type="radio" id="onlineRadio" name="fav_language" value="ONLINE">
+      <label  for="onlineRadio">Online (WIP)</label><br>
+      <button onclick="resetBoard(); document.getElementById('boardCodeH1').hidden = true; channel = 1114;">Reset</button>
 
+    <label id='usernameLabel' hidden="true" ><br>  Username:</label><br>
+      <input hidden="true"  type="text" id="usernameInput" value=""><br>
+      <button style="margin-top:10px" hidden=true onclick="createBoard()" id="createBoardBtn">Create Board</button>
+      <button onclick="setChannel();" hidden=true id="joinBoardBtn">Join Board</button>
+    <input type="number" id="channelInput" min="1000" max="9999" hidden="true">
+    <h3 id='boardCodeH1' style="font-family:verdana;margin-top:15px;margin-left:10px;" hidden=true>Board code: 1234</h3>
 <script src=main.js>
 </script>
 
