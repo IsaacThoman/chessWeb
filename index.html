@@ -21,10 +21,25 @@
     </style>
 </head>
 <body>
-
+<div style="
+display: block;
+margin: 0 auto;
+  width: 768px;
+  height: 800px;
+  border: 0px solid red;">
+    <div style=" position:absolute;
+    top:15px;
+  width: 768px;
+  height: 768px;
+  border: 0px solid green;">
     <canvas id="myCanvas" width="768" height="768"></canvas>
-
-
+    </div>
+<div style="    position: relative;
+top:15px;
+  left: 770px;
+  width: 340px;
+  height: 310px;
+  border: 0px solid blue;">
 
       <input onclick="showOnlineStuff(false);" type="radio" id="localRadio" name="fav_language" value="LOCAL"checked="checked">
       <label for="onlineRadio">Local</label><br>
@@ -58,7 +73,8 @@
         <button style="" id="joinBtn2" hidden="true" onclick="joinFromSelection();">Join</button>
     </div>
 </div>
-
+</div>
+</div>
 <script src=main.js>
 </script>
 
