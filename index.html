@@ -24,7 +24,7 @@
 <div style="
 display: block;
 margin: 0 auto;
-  width: 768px;
+  width: 1088px;
   height: 800px;
   border: 0px solid red;">
     <div style=" position:absolute;
@@ -37,18 +37,22 @@ margin: 0 auto;
 <div style="    position: relative;
 top:15px;
   left: 770px;
-  width: 340px;
-  height: 310px;
-  border: 0px solid blue;">
+  width: 320px;
+  height: 300px;
+  border: 0px solid blue;
+    background-color: lightgrey;">
 
-      <input onclick="showOnlineStuff(false);" type="radio" id="localRadio" name="fav_language" value="LOCAL"checked="checked">
+      <input style="margin-top: 5px" onclick="showOnlineStuff(false);" type="radio" id="localRadio" name="fav_language" value="LOCAL"checked="checked">
       <label for="onlineRadio">Local</label><br>
       <input onclick="showOnlineStuff(true);" type="radio" id="onlineRadio" name="fav_language" value="ONLINE">
       <label  for="onlineRadio">Online (WIP)</label><br>
       <button onclick="resetBoard();
         document.getElementById('boardCodeH1').hidden = true;
         document.getElementById('boardCodeH2').hidden = true;
-        document.getElementById('mySelect').hidden = false;
+        if(document.getElementById('onlineRadio').checked){
+            document.getElementById('mySelect').hidden = false;
+        }
+
         channel = 1114;"
     >Reset</button>
 
