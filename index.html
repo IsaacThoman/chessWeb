@@ -30,20 +30,27 @@
       <label for="onlineRadio">Local</label><br>
       <input onclick="showOnlineStuff(true);" type="radio" id="onlineRadio" name="fav_language" value="ONLINE">
       <label  for="onlineRadio">Online (WIP)</label><br>
-      <button onclick="resetBoard(); document.getElementById('boardCodeH1').hidden = true;document.getElementById('boardCodeH2').hidden = true; channel = 1114;">Reset</button>
+      <button onclick="resetBoard();
+        document.getElementById('boardCodeH1').hidden = true;
+        document.getElementById('boardCodeH2').hidden = true;
+        document.getElementById('mySelect').hidden = false;
+        channel = 1114;"
+    >Reset</button>
 
     <label id='usernameLabel' hidden="true" ><br>  Username:</label><br>
       <input hidden="true"  type="text" id="usernameInput" value=""><br>
       <button style="margin-top:10px" hidden=true onclick="createBoard()" id="createBoardBtn">Create Board</button>
       <button onclick="setChannel();" hidden=true id="joinBoardBtn">Join Board</button>
     <input type="number" id="channelInput" min="1000" max="9999" hidden="true">
-      <h5 style="font-family:verdana;margin-left:10px;" >
-
-        <a href="?code=1234">test link</a>
-
-    </h5>
     <h3 id='boardCodeH1' style="font-family:verdana;margin-top:15px;margin-left:10px;" hidden=true></h3>
     <p id='boardCodeH2' style="font-family:verdana;margin-top:15px;margin-left:10px;" hidden=true></p>
+    
+    <form>
+        <select hidden=true id="mySelect" size="5" style="width:250px; margin-left: 10px; margin-top: 10px">
+
+        </select>
+    </form>
+
 <script src=main.js>
 </script>
 

@@ -765,8 +765,12 @@ document.getElementById('usernameInput').setAttribute('value', localStorage.getI
         document.getElementById('boardCodeH1').hidden = !enabled;
         document.getElementById('boardCodeH2').hidden = !enabled;
 
+        document.getElementById('mySelect').hidden = !enabled;
+
         document.getElementById('boardCodeH1').textContent = '';
         document.getElementById('boardCodeH2').textContent = '';
+
+
         if(enabled=true){
         channel=1114;
         }
@@ -815,6 +819,16 @@ if(page_type!=null){
     document.getElementById('boardCodeH1').textContent='Board Code: '.concat(channel);
     window.history.replaceState('', '', '/');
 }
+
+var x = document.getElementById("mySelect");
+var option = [];
+for (var i=0;i<=150;i++) {
+    option[i]=document.createElement("option");
+    option[i].text = "Monkey ".concat(i);
+    x.add(option[i]);
+}
+
+
 
 
 drawBackground();
