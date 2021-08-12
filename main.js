@@ -722,7 +722,12 @@ var username = "";
             if (xhr.readyState === 4) {
                 var responseText = xhr.responseText;
                 responseText = responseText.substring(1, responseText.length-1);
-                document.getElementById('boardCodeH2').textContent='Players Connected: '.concat(responseText);
+                if(channel==1114){
+                    document.getElementById('boardCodeH2').textContent='';
+                }else{
+                    document.getElementById('boardCodeH2').textContent='Players Connected: '.concat(responseText);
+                }
+
             }};
 
         xhr.send();
@@ -757,10 +762,13 @@ document.getElementById('usernameInput').setAttribute('value', localStorage.getI
         document.getElementById('createBoardBtn').hidden = !enabled;
         document.getElementById('joinBoardBtn').hidden = !enabled;
         document.getElementById('channelInput').hidden = !enabled;
+        document.getElementById('boardCodeH1').hidden = !enabled;
+        document.getElementById('boardCodeH2').hidden = !enabled;
 
+        document.getElementById('boardCodeH1').textContent = '';
+        document.getElementById('boardCodeH2').textContent = '';
         if(enabled=true){
-            document.getElementById('boardCodeH1').hidden = true;
-            document.getElementById('boardCodeH2').hidden = true;
+        channel=1114;
         }
  }
 
@@ -793,6 +801,20 @@ function getRandomArbitrary(min, max) {
     }
  }
 
+const queryString = window.location.search;
+
+const urlParams = new URLSearchParams(queryString);
+
+const page_type = urlParams.get('code')
+
+if(page_type!=null){
+    console.log(page_type);
+    showOnlineStuff(true);
+    document.getElementById('onlineRadio').checked=true;
+    channel=page_type;
+    document.getElementById('boardCodeH1').textContent='Board Code: '.concat(channel);
+    window.history.replaceState('', '', '/');
+}
 
 
 drawBackground();
