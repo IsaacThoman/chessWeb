@@ -766,6 +766,7 @@ document.getElementById('usernameInput').setAttribute('value', localStorage.getI
         document.getElementById('boardCodeH2').hidden = !enabled;
 
         document.getElementById('mySelect').hidden = !enabled;
+        document.getElementById('joinBtn2').hidden = !enabled;
 
         document.getElementById('boardCodeH1').textContent = '';
         document.getElementById('boardCodeH2').textContent = '';
@@ -791,8 +792,8 @@ function getRandomArbitrary(min, max) {
      document.getElementById('boardCodeH1').textContent='Board Code: '.concat(channel);
 
  }
- function setChannel(){
-    var newChannel = parseInt(document.getElementById('channelInput').value);
+ function setChannel(newChannel){
+
     document.getElementById('channelInput').value = '';
     if(newChannel>1&&newChannel<9999){
         resetBoard();
@@ -822,13 +823,23 @@ if(page_type!=null){
 
 var x = document.getElementById("mySelect");
 var option = [];
-for (var i=0;i<=150;i++) {
+
+var labels = ['No rooms found :/']
+var labelsLink = [-1]
+
+
+
+for (var i=0;i<labels.length;i++) {
     option[i]=document.createElement("option");
-    option[i].text = "Monkey ".concat(i);
+    option[i].text = labels[i];
     x.add(option[i]);
 }
 
-
+function joinFromSelection(){
+    var select = document.getElementById('mySelect');
+    var value = labelsLink[select.selectedIndex] ;
+    setChannel(value)
+}
 
 
 drawBackground();

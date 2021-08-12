@@ -40,16 +40,24 @@
     <label id='usernameLabel' hidden="true" ><br>  Username:</label><br>
       <input hidden="true"  type="text" id="usernameInput" value=""><br>
       <button style="margin-top:10px" hidden=true onclick="createBoard()" id="createBoardBtn">Create Board</button>
-      <button onclick="setChannel();" hidden=true id="joinBoardBtn">Join Board</button>
+      <button onclick="setChannel(parseInt(document.getElementById('channelInput').value));" hidden=true id="joinBoardBtn">Join Board</button>
     <input type="number" id="channelInput" min="1000" max="9999" hidden="true">
     <h3 id='boardCodeH1' style="font-family:verdana;margin-top:15px;margin-left:10px;" hidden=true></h3>
     <p id='boardCodeH2' style="font-family:verdana;margin-top:15px;margin-left:10px;" hidden=true></p>
-    
+<div style="  position: relative;width: 400px;height: 200px;">
     <form>
+<div style="    position: absolute;
+
+">
         <select hidden=true id="mySelect" size="5" style="width:250px; margin-left: 10px; margin-top: 10px">
 
         </select>
+</div>
     </form>
+    <div style=" margin-top:10px; position: absolute;right: 0px;width: 130px;height: 120px;">
+        <button style="" id="joinBtn2" hidden="true" onclick="joinFromSelection();">Join</button>
+    </div>
+</div>
 
 <script src=main.js>
 </script>
