@@ -270,7 +270,12 @@ relativeX = e.clientX - canvas.offsetLeft;
          var fromValue = boardSquares[draggedPiece];
          boardSquares[draggedPiece]=0;
          boardSquares[selection] = fromValue;//A MOVE HAS BEEN MADE HERE
-        whitesMoveStored=!whitesMoveStored;
+
+         if(boardSquares[selection]==1&&selectionY==0){boardSquares[selection]=5;}
+         if(boardSquares[selection]==7&&selectionY==7){boardSquares[selection]=11;} //promotion
+
+
+         whitesMoveStored=!whitesMoveStored;
         lastUpload=Math.floor((new Date()).getTime() / 1000);
          if(document.getElementById('onlineRadio').checked) {
             var boardToUpload = boardToString(boardSquares);
