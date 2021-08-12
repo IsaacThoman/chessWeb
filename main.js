@@ -725,6 +725,7 @@ var username = "";
 
 var onlineScanningTimer = window.setInterval(function(){
     username = localStorage.getItem("username");
+
     sendUsername();
     getUsername();
 if(document.getElementById('usernameInput').value != localStorage.getItem("username")){
@@ -737,7 +738,10 @@ if(document.getElementById('usernameInput').value != localStorage.getItem("usern
     }
 }, 1000);
 
+if(localStorage.getItem("username")==null){
 
+    localStorage.setItem("username","Henri".concat(Math.floor(getRandomArbitrary(1,99))));
+}
 document.getElementById('usernameInput').setAttribute('value', localStorage.getItem("username"));
 
 
