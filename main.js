@@ -165,8 +165,9 @@ document.addEventListener("mousedown", mouseDownHandler, false);
 document.addEventListener("mouseup", mouseUpHandler, false);
 
 function mouseMoveHandler(e) {
-     relativeX = e.clientX - canvas.offsetLeft;
-     relativeY = e.clientY - canvas.offsetTop;
+    var rect = canvas.getBoundingClientRect();
+    relativeX = e.clientX - rect.left;
+    relativeY = e.clientY - rect.top;
 updateCursorIcon();
     if(mousedownBool&&mouseOnBoard(e)){
 
@@ -211,8 +212,9 @@ if(draggedPiece>=0){//draws grabbed piece
     }
 }
 function mouseOnBoard(e){
-    relativeX = e.clientX - canvas.offsetLeft;
-     relativeY = e.clientY - canvas.offsetTop;
+    var rect = canvas.getBoundingClientRect();
+    relativeX = e.clientX - rect.left;
+    relativeY = e.clientY - rect.top;
      if(relativeX<=boardResolution&&relativeX>=0&&relativeY<=boardResolution&&relativeY>=0){
 return true;
      }
@@ -224,8 +226,9 @@ function mouseDownHandler(e){
 mousedownBool=true;
 boardResolution = canvas.width;
 //console.log(e.clientX);
-    relativeX = e.clientX - canvas.offsetLeft;
-     relativeY = e.clientY - canvas.offsetTop;
+    var rect = canvas.getBoundingClientRect();
+    relativeX = e.clientX - rect.left;
+     relativeY = e.clientY - rect.top;
 
      var selectionX = Math.ceil(relativeX/boardResolution*8)-1;
      var selectionY = Math.ceil(relativeY/boardResolution*8)-1;
@@ -260,8 +263,9 @@ var lastUpload = 0;
 function mouseUpHandler(e) {
 mousedownBool=false;
 updateCursorIcon();
-relativeX = e.clientX - canvas.offsetLeft;
-     relativeY = e.clientY - canvas.offsetTop;
+    var rect = canvas.getBoundingClientRect();
+    relativeX = e.clientX - rect.left;
+    relativeY = e.clientY - rect.top;
 
      var selectionX = Math.ceil(relativeX/boardResolution*8)-1;
      var selectionY = Math.ceil(relativeY/boardResolution*8)-1;
