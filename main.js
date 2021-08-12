@@ -690,11 +690,47 @@ var pieceBeingAnimated = -1;
 
 
     }
+var username = "";
+    function sendUsername(){
+        var url = "https://api.grobchess.com/api/ChessAcc?message=".concat(username).concat("&channel=".concat(channel));
+
+        var xhr = new XMLHttpRequest();
+        xhr.open("POST", url);
+
+        xhr.setRequestHeader("Content-Type", "application/json");
+
+        xhr.onreadystatechange = function () {
+            if (xhr.readyState === 4) {
+
+            }};
+
+        xhr.send();
+    }
+
+    function getUsername(){
+        var url = "https://api.grobchess.com/api/ChessAcc?channel=".concat(channel);
+
+        var xhr = new XMLHttpRequest();
+        xhr.open("GET", url);
+
+        xhr.onreadystatechange = function () {
+            if (xhr.readyState === 4) {
+                var responseText = xhr.responseText;
+                responseText = responseText.substring(1, responseText.length-1);
+                document.getElementById('boardCodeH2').textContent='Players Connected: '.concat(responseText);
+            }};
+
+        xhr.send();
+    }
 
 var onlineScanningTimer = window.setInterval(function(){
+    username = localStorage.getItem("username");
+    sendUsername();
+    getUsername();
 if(document.getElementById('usernameInput').value != localStorage.getItem("username")){
     localStorage.setItem("username", document.getElementById('usernameInput').value);
 }
+
 
     if(lastUpload+2<=Math.floor((new Date()).getTime() / 1000)){
         onlineScanning();
@@ -702,21 +738,20 @@ if(document.getElementById('usernameInput').value != localStorage.getItem("usern
 }, 1000);
 
 
+document.getElementById('usernameInput').setAttribute('value', localStorage.getItem("username"));
 
 
     function showOnlineStuff(enabled){
-        if(localStorage.getItem("username")==null){
-            localStorage.setItem("username", "");
-        }
-        document.getElementById('usernameInput').setAttribute('value', localStorage.getItem("username"));
 
     document.getElementById('usernameInput').hidden = !enabled;
         document.getElementById('usernameLabel').hidden = !enabled;
         document.getElementById('createBoardBtn').hidden = !enabled;
         document.getElementById('joinBoardBtn').hidden = !enabled;
         document.getElementById('channelInput').hidden = !enabled;
+
         if(enabled=true){
             document.getElementById('boardCodeH1').hidden = true;
+            document.getElementById('boardCodeH2').hidden = true;
         }
  }
 
@@ -731,6 +766,7 @@ function getRandomArbitrary(min, max) {
         renderStills();
      channel=Math.floor(getRandomArbitrary(1000,9999));
      document.getElementById('boardCodeH1').hidden=false;
+     document.getElementById('boardCodeH2').hidden =false;
      document.getElementById('boardCodeH1').textContent='Board Code: '.concat(channel);
 
  }
@@ -743,6 +779,7 @@ function getRandomArbitrary(min, max) {
         renderStills();
         channel=newChannel;
         document.getElementById('boardCodeH1').hidden=false;
+        document.getElementById('boardCodeH2').hidden = false;
         document.getElementById('boardCodeH1').textContent='Board Code: '.concat(channel);
     }
  }
