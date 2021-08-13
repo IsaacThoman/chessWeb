@@ -43,7 +43,8 @@ function resetBoard(){
     whitesMoveStored=true;
     drawBackground();
     renderStills();
-    if(document.getElementById('onlineRadio').checked){
+    //if(document.getElementById('onlineRadio').checked){
+    if(false){
         var boardToUpload = 'w43256234111111110000000000000000000000000000000077777777a98bc89aSTOP';
         var url2 = "https://api.grobchess.com/api/chess?message=".concat(boardToUpload,'&channel=',channel);
 
