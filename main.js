@@ -736,12 +736,23 @@ var username = "";
 
         xhr.send();
     }
-
+//the loop is over here
+var loopCounter = 3;
 var onlineScanningTimer = window.setInterval(function(){
+    if(!document.getElementById('onlineRadio').checked){
+        return;
+    }
+    loopCounter+=1;
+    if(loopCounter>5){
+        loopCounter=0;
+        getRoomList();
+    }
+
     username = localStorage.getItem("username");
 
     sendUsername();
     getUsername();
+
 if(document.getElementById('usernameInput').value != localStorage.getItem("username")){
     localStorage.setItem("username", document.getElementById('usernameInput').value);
 }
@@ -771,6 +782,12 @@ document.getElementById('usernameInput').setAttribute('value', localStorage.getI
 
         document.getElementById('mySelect').hidden = !enabled;
         document.getElementById('joinBtn2').hidden = !enabled;
+        document.getElementById('reloadBtn').hidden = !enabled;
+        if(enabled){
+            document.getElementById('reloadBtn').style.display = 'none'; //change this if you want it back
+        }else{
+            document.getElementById('reloadBtn').style.display = 'none';
+        }
 
         document.getElementById('boardCodeH1').textContent = '';
         document.getElementById('boardCodeH2').textContent = '';
@@ -832,17 +849,41 @@ var labels = ['No rooms found :/']
 var labelsLink = [-1]
 
 
+function updateListDisplayed(){
+    x.innerHTML = '';
+    for (var i=0;i<labels.length;i++) {
+            option[i]=document.createElement("option");
+            option[i].text = labels[i];
+            x.add(option[i]);
 
-for (var i=0;i<labels.length;i++) {
-    option[i]=document.createElement("option");
-    option[i].text = labels[i];
-    x.add(option[i]);
+
+    }
 }
+updateListDisplayed()
 
 function joinFromSelection(){
     var select = document.getElementById('mySelect');
     var value = labelsLink[select.selectedIndex] ;
     setChannel(value)
+}
+
+function getRoomList(){
+    var url = "https://api.grobchess.com/api/ChessMM";
+
+    var xhr = new XMLHttpRequest();
+    xhr.open("GET", url);
+
+    xhr.onreadystatechange = function () {
+        if (xhr.readyState === 4) {
+
+            var responseText = xhr.responseText.substring(1, xhr.responseText.length-1);
+            labels = (responseText.split('|')[1].split('> '))
+            labelsLink = (responseText.split('|')[0].split('> '))
+            updateListDisplayed()
+        }};
+
+    xhr.send();
+
 }
 
 
