@@ -1,5 +1,5 @@
 
-var framesInAnimation = 20 ;
+var framesInAnimation = 12 ;
 // ---------Board Representation
 var boardSquares = [];
 for (var i=0;i<=64;i++) {
@@ -768,7 +768,9 @@ var pieceBeingAnimated = -1;
     }
 var username = "";
     function sendUsername(){
-        var url = "https://api.grobchess.com/api/ChessAcc?message=".concat(username).concat("&channel=".concat(channel));
+        var symbol = "♔";
+        if(reverseBoard){symbol="♚";}
+        var url = "https://api.grobchess.com/api/ChessAcc?message=".concat(symbol).concat(username).concat("&channel=".concat(channel));
 
         var xhr = new XMLHttpRequest();
         xhr.open("POST", url);

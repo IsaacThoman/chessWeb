@@ -69,6 +69,8 @@ top:15px;
 
     <label id='usernameLabel' hidden="true" ><br>  Username:</label><br>
       <input hidden="true"  type="text" id="usernameInput" value=""><br>
+    <label>  Play as black</label>
+     <input id="blackBtn" type="checkbox"onclick="reverseBoard=document.getElementById('blackBtn').checked; drawBackground(); renderStills();"><br>
       <button style="margin-top:10px" hidden=true onclick="createBoard()" id="createBoardBtn">Create Board</button>
       <button onclick="setChannel(parseInt(document.getElementById('channelInput').value));" hidden=true id="joinBoardBtn">Join Board</button>
     <input type="number" id="channelInput" min="1000" max="9999" hidden="true">
