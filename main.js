@@ -117,6 +117,8 @@ function resetBoard(){
 //    ctx.drawImage(pieces[1],0, 0, boardResolution/8, boardResolution/8);
 //}
 //setInterval(draw, 1000);
+
+var reverseBoard = false;
 var relativeX = 0;
 var relativeY = 0;
 var mousedownBool = false;
@@ -124,6 +126,10 @@ function renderStills(){
     for(var i=0;i<=64-1;i++){
             var squareX=(i % 8);
             var squareY = Math.floor(i/8);
+            if(reverseBoard){
+              squareX = 7-squareX;
+              squareY = 7-squareY;
+            }
             if((boardSquares[i]!=0)&& draggedPiece !=i &&pieceBeingAnimated!=i ){
                 ctx.drawImage(pieces[boardSquares[i]],squareX*boardResolution/8, squareY*boardResolution/8, boardResolution/8, boardResolution/8);
             }
@@ -148,6 +154,9 @@ function updateCursorIcon(){
     var selectionX = Math.ceil(relativeX/boardResolution*8)-1;
      var selectionY = Math.ceil(relativeY/boardResolution*8)-1;
      var selection = (((selectionY*8)-1)+selectionX)+1;
+     if(reverseBoard){
+       selection = 63-selection
+     }
      if(mousedownBool && draggedPiece>0){
         document.body.style.cursor = 'grabbing';
      }
@@ -179,7 +188,11 @@ updateCursorIcon();
         for(var i=0;i<=legalMovesToShow.length;i++){
             var squareX=(legalMovesToShow[i] % 8);
             var squareY = Math.floor(legalMovesToShow[i]/8);
-            if(getPiece(squareX,squareY,boardSquares)==0){
+            var drawSword = (getPiece(squareX,squareY,boardSquares)==0);
+            if(reverseBoard){
+              drawSword = (getPiece(7-squareX,7-squareY,boardSquares)==0);
+            }
+            if(drawSword){
                 ctx.drawImage(pieces[13],squareX*boardResolution/8, squareY*boardResolution/8, boardResolution/8, boardResolution/8);
 
             }else{
@@ -195,8 +208,14 @@ updateCursorIcon();
         for(var i=0;i<=legalMovesToShow.length;i++){  //this chunk draws the sword on attackable pieces
             var squareX=(legalMovesToShow[i] % 8);
             var squareY = Math.floor(legalMovesToShow[i]/8);
-            if(getPiece(squareX,squareY,boardSquares)!=0){
-                if(getPiece(squareX,squareY,boardSquares)>6){
+            var drawSword = (getPiece(squareX,squareY,boardSquares)==0);
+            if(reverseBoard){
+              drawSword = (getPiece(7-squareX,7-squareY,boardSquares)==0);
+            }
+            if(!drawSword){
+              var useWhiteSword = (getPiece(squareX,squareY,boardSquares)>6);
+              if(reverseBoard){useWhiteSword = (getPiece(7-squareX,7-squareY,boardSquares)>6);}
+                if(useWhiteSword){
                 ctx.drawImage(pieces[15],squareX*boardResolution/8, squareY*boardResolution/8, boardResolution/8, boardResolution/8);
                 }else{
                     ctx.drawImage(pieces[16],squareX*boardResolution/8, squareY*boardResolution/8, boardResolution/8, boardResolution/8);
@@ -235,6 +254,9 @@ boardResolution = canvas.width;
      var selectionY = Math.ceil(relativeY/boardResolution*8)-1;
 
     var selection = (((selectionY*8)-1)+selectionX)+1;
+    if(reverseBoard){
+      selection = 63-selection
+    }
     if(boardSquares[selection]==0){
         draggedPiece=-1;
     }else{
@@ -252,7 +274,12 @@ function updateLegalMoves(){
 legalMovesToShow = [];
 for(var i=0;i<=64;i++){
     if(rulebook(draggedPiece,i,boardSquares,whitesMoveStored)){
+      if(reverseBoard){
+        legalMovesToShow.push(63-i);
+      }else{
         legalMovesToShow.push(i);
+      }
+
     }
 
 }
@@ -271,6 +298,9 @@ updateCursorIcon();
      var selectionX = Math.ceil(relativeX/boardResolution*8)-1;
      var selectionY = Math.ceil(relativeY/boardResolution*8)-1;
      var selection = (((selectionY*8)-1)+selectionX)+1;;
+     if(reverseBoard){
+       selection = 63-selection
+     }
      if(draggedPiece>=0&&rulebook(draggedPiece,selection,boardSquares,whitesMoveStored)&&checkCheck(draggedPiece,selection)){
          var fromValue = boardSquares[draggedPiece];
          boardSquares[draggedPiece]=0;
@@ -308,6 +338,10 @@ updateCursorIcon();
      for(var i=0;i<=64-1;i++){
             var squareX=(i % 8);
             var squareY = Math.floor(i/8);
+            if(reverseBoard){
+              squareX = 7-squareX;
+              squareY = 7-squareY;
+            }
             if((boardSquares[i]!=0)&& draggedPiece !=i){
                 ctx.drawImage(pieces[boardSquares[i]],squareX*boardResolution/8, squareY*boardResolution/8, boardResolution/8, boardResolution/8);
             }}
