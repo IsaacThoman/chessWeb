@@ -521,7 +521,7 @@ if((squareX+squareY)%2){
     ctx.beginPath();
  ctx.rect(squareX*boardResolution/8, squareY*boardResolution/8, boardResolution/8, boardResolution/8);
                  ctx.fillStyle = "#779AAF";
-                 if(bgSquare == lastMoveSource||bgSquare == lastMoveDest){
+                 if((bgSquare == lastMoveSource||bgSquare == lastMoveDest)&& channel!=1114){
                    ctx.fillStyle = "#7876b0";
                    console.log("hey")
                  }
@@ -531,7 +531,7 @@ if((squareX+squareY)%2){
     ctx.beginPath();
  ctx.rect(squareX*boardResolution/8, squareY*boardResolution/8, boardResolution/8, boardResolution/8);
                  ctx.fillStyle = "#d5E1E5";
-                 if(bgSquare == lastMoveSource||bgSquare == lastMoveDest){
+                 if((bgSquare == lastMoveSource||bgSquare == lastMoveDest)&& channel!=1114){
                    ctx.fillStyle = "#d5b3e6";
                    console.log("hey")
                  }
