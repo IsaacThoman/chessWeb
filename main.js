@@ -663,8 +663,7 @@ function onlineScanning(){
 
                    frameNumber=0;
                     animPiece = pieces[change[0]]
-                    lastMoveSource = change[0];
-                    lastMoveDest = change[1];
+
                        animationTimer = window.setInterval(function(){
 
                             showFrame(change[0],change[1],change[2],landedOn);
@@ -689,6 +688,8 @@ var pieceBeingAnimated = -1;
             clearInterval(animationTimer);
             drawBackground();
             renderStills();
+            lastMoveSource = change[0];
+            lastMoveDest = change[1];
         }
 
         drawBackground()
