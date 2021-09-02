@@ -688,8 +688,8 @@ var pieceBeingAnimated = -1;
             clearInterval(animationTimer);
             drawBackground();
             renderStills();
-            lastMoveSource = change[0];
-            lastMoveDest = change[1];
+            lastMoveSource = fromPos;
+            lastMoveDest = toPos;
         }
 
         drawBackground()
