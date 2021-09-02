@@ -26,7 +26,7 @@ boardSquares[i]=0;
     boardSquares[i]=3;break;
     case 61:case 58:
     boardSquares[i]=2;break;
-    
+
     case 59:
     boardSquares[i]=5;break;
     case 60:
@@ -35,7 +35,7 @@ boardSquares[i]=0;
     boardSquares[i]=11;break;
     case 4:
     boardSquares[i]=12;break;
-    
+
        }
     }
 function resetBoard(){
@@ -75,14 +75,14 @@ function resetBoard(){
                 case 11: reversed.unshift(5); break;
                 case 12: reversed.unshift(6); break;
             }}
-        
+
         return reversed;
     }
 
 
 	const canvas = document.getElementById("myCanvas");
     const ctx = canvas.getContext("2d");
-    
+
     var boardResolution = canvas.width;
 
 
@@ -95,7 +95,7 @@ function resetBoard(){
     pieces[14] = new Image();
     pieces[15] = new Image();
     pieces[16] = new Image();
-    
+
     pieces[13].src = 'resources/legalMoveDot.png';
     pieces[14].src = 'resources/redDot.png';
     pieces[15].src = 'resources/sword.png';
@@ -111,7 +111,7 @@ function resetBoard(){
 
 
 
-    
+
 
 //function draw() {
 //    ctx.drawImage(pieces[1],0, 0, boardResolution/8, boardResolution/8);
@@ -131,9 +131,9 @@ function renderStills(){
                 ctx.beginPath();
                 ctx.rect(squareX*boardResolution/8, squareY*boardResolution/8, boardResolution/8, boardResolution/8);
                                 ctx.fillStyle = "#b1d0e3";
-                                ctx.fill();       
+                                ctx.fill();
                            ctx.closePath();
-                           
+
                 ctx.globalAlpha = 0.3;
                 ctx.drawImage(pieces[boardSquares[i]],squareX*boardResolution/8, squareY*boardResolution/8, boardResolution/8, boardResolution/8);
                 ctx.globalAlpha =1;
@@ -158,7 +158,7 @@ function updateCursorIcon(){
      }
     }else{document.body.style.cursor = 'default';}
 
-    
+
 }
 
 document.addEventListener("mousemove", mouseMoveHandler, false);
@@ -181,11 +181,11 @@ updateCursorIcon();
             var squareY = Math.floor(legalMovesToShow[i]/8);
             if(getPiece(squareX,squareY,boardSquares)==0){
                 ctx.drawImage(pieces[13],squareX*boardResolution/8, squareY*boardResolution/8, boardResolution/8, boardResolution/8);
-                
+
             }else{
                 ctx.drawImage(pieces[14],squareX*boardResolution/8, squareY*boardResolution/8, boardResolution/8, boardResolution/8);
             }
-          
+
         }
 
 
@@ -256,7 +256,7 @@ for(var i=0;i<=64;i++){
     }
 
 }
-    
+
 
 }
 var channel = 1114;
@@ -281,6 +281,10 @@ updateCursorIcon();
 
 
          whitesMoveStored=!whitesMoveStored;
+
+        lastMoveSource = draggedPiece;
+        lastMoveDest = selection;
+
         lastUpload=Math.floor((new Date()).getTime() / 1000);
          if(document.getElementById('onlineRadio').checked) {
             var boardToUpload = boardToString(boardSquares);
@@ -386,7 +390,7 @@ return true;
     if(internalBoard[source]==2){//bishop
 
     if(Math.abs(sourceX-destX) != Math.abs(sourceY - destY)){return false;} //fails if not perfectly diagonal
-        
+
     if(getPiece(destX,destY,internalBoard)==0 | getPiece(destX, destY,internalBoard) > 6){
         var scanDirX=0;
         var scanDirY=0;
@@ -422,15 +426,15 @@ return true;
             else{
                 distance=Math.abs(sourceX-destX);
             }
-        
+
         for(var i=1;i<=distance-1;i+=1){
             var posX = sourceX + (i*scanDirX);
             var posY = sourceY + (i*scanDirY);
             if(getPiece(posX,posY,internalBoard)!=0){
-                
+
              //   console.log('Returned false for '+sourceX+','+sourceY+' to '+destX+','+destY+' because of piece at '+posX+','+posY+'. i='+i+', distance='+distance)
                 return false;}
-            
+
         }
         return true;
     }
@@ -460,20 +464,20 @@ return true;
             else{
                 distance=Math.abs(sourceX-destX);
             }
-        
+
         for(var i=1;i<=distance-1;i+=1){
             var posX = sourceX + (i*scanDirX);
             var posY = sourceY + (i*scanDirY);
             if(getPiece(posX,posY,internalBoard)!=0){
-                
-            
+
+
                 if(!rookLegalSet){rookLegal=false;rookLegalSet=true;}}
-            
+
         }
         if(!rookLegalSet){rookLegal=true;rookLegalSet=true;}
         //bishop start
         if(Math.abs(sourceX-destX) != Math.abs(sourceY - destY)){if(!bishopLegalSet){bishopLegal=false;bishopLegalSet=true;}} //fails if not perfectly diagonal
-        
+
         if(getPiece(destX,destY,internalBoard)==0 | getPiece(destX, destY,internalBoard) > 6){
              scanDirX=0;
              scanDirY=0;
@@ -481,9 +485,9 @@ return true;
             else{scanDirX = 1;}
             if (sourceY > destY){scanDirY = 0 - 1;}
             else{scanDirY = 1;}
-    
+
              distance = Math.abs(sourceX-destX);
-    
+
             for(var i=1;i<=distance-1;i+=1){
                 var posX = sourceX + (i*scanDirX);
                 var posY = sourceY + (i*scanDirY);
@@ -508,7 +512,7 @@ debugMode = false;
 
 function drawBackground(){
     var bgSquare = 0;
-    
+
   while(bgSquare<=64){
         var squareX=(bgSquare % 8);
        var squareY = Math.floor(bgSquare/8);
@@ -517,15 +521,23 @@ if((squareX+squareY)%2){
     ctx.beginPath();
  ctx.rect(squareX*boardResolution/8, squareY*boardResolution/8, boardResolution/8, boardResolution/8);
                  ctx.fillStyle = "#779AAF";
-                 ctx.fill();       
+                 if(bgSquare == lastMoveSource||bgSquare == lastMoveDest){
+                   ctx.fillStyle = "#7876b0";
+                   console.log("hey")
+                 }
+                 ctx.fill();
             ctx.closePath();
 }else{
     ctx.beginPath();
  ctx.rect(squareX*boardResolution/8, squareY*boardResolution/8, boardResolution/8, boardResolution/8);
                  ctx.fillStyle = "#d5E1E5";
-                 ctx.fill();       
+                 if(bgSquare == lastMoveSource||bgSquare == lastMoveDest){
+                   ctx.fillStyle = "#d5b3e6";
+                   console.log("hey")
+                 }
+                 ctx.fill();
             ctx.closePath();
-            
+
 }
 
      if(debugMode){ctx.strokeText(bgSquare,squareX*boardResolution/8,(Math.floor(bgSquare/8)+1)*boardResolution/8,5000);}
@@ -651,6 +663,8 @@ function onlineScanning(){
 
                    frameNumber=0;
                     animPiece = pieces[change[0]]
+                    lastMoveSource = change[0];
+                    lastMoveDest = change[1];
                        animationTimer = window.setInterval(function(){
 
                             showFrame(change[0],change[1],change[2],landedOn);
@@ -662,6 +676,9 @@ function onlineScanning(){
         xhr.send();
     }
 }
+
+var lastMoveSource = -1;
+var lastMoveDest = -1;
 var frameNumber = 0;
 var animationTimer = null;
 var animPiece = 0;
