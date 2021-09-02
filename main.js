@@ -130,7 +130,9 @@ function renderStills(){
               squareX = 7-squareX;
               squareY = 7-squareY;
             }
-            if((boardSquares[i]!=0)&& draggedPiece !=i &&pieceBeingAnimated!=i ){
+            var pieceBeingAnimatedReversed = pieceBeingAnimated;
+            if(reverseBoard){pieceBeingAnimatedReversed=63-pieceBeingAnimatedReversed;}
+            if((boardSquares[i]!=0)&& draggedPiece !=i &&pieceBeingAnimatedReversed!=i ){
                 ctx.drawImage(pieces[boardSquares[i]],squareX*boardResolution/8, squareY*boardResolution/8, boardResolution/8, boardResolution/8);
             }
             if(draggedPiece==i){
@@ -312,8 +314,13 @@ updateCursorIcon();
 
          whitesMoveStored=!whitesMoveStored;
 
-        lastMoveSource = draggedPiece;
-        lastMoveDest = selection;
+         if(reverseBoard){
+             lastMoveSource = 63-draggedPiece;
+             lastMoveDest = 63-selection;
+         }else {
+             lastMoveSource = draggedPiece;
+             lastMoveDest = selection;
+         }
 
         lastUpload=Math.floor((new Date()).getTime() / 1000);
          if(document.getElementById('onlineRadio').checked) {
@@ -550,12 +557,14 @@ function drawBackground(){
   while(bgSquare<=64){
         var squareX=(bgSquare % 8);
        var squareY = Math.floor(bgSquare/8);
-
+        var reversedLastMoveSource = lastMoveSource;
+        var reversedLastMoveDest = lastMoveDest;
+        //if(reverseBoard){reversedLastMoveDest = 63-reversedLastMoveDest;  reversedLastMoveSource = 63-reversedLastMoveSource;}
 if((squareX+squareY)%2){
     ctx.beginPath();
  ctx.rect(squareX*boardResolution/8, squareY*boardResolution/8, boardResolution/8, boardResolution/8);
                  ctx.fillStyle = "#779AAF";
-                 if(bgSquare == lastMoveSource||bgSquare == lastMoveDest){
+                 if(bgSquare == reversedLastMoveSource||bgSquare == reversedLastMoveDest){
                    ctx.fillStyle = "#7876b0";
                    console.log("hey")
                  }
@@ -565,7 +574,7 @@ if((squareX+squareY)%2){
     ctx.beginPath();
  ctx.rect(squareX*boardResolution/8, squareY*boardResolution/8, boardResolution/8, boardResolution/8);
                  ctx.fillStyle = "#d5E1E5";
-                 if(bgSquare == lastMoveSource||bgSquare == lastMoveDest){
+                 if(bgSquare == reversedLastMoveSource||bgSquare == reversedLastMoveDest){
                    ctx.fillStyle = "#d5b3e6";
                    console.log("hey")
                  }
@@ -717,6 +726,11 @@ var animationTimer = null;
 var animPiece = 0;
 var pieceBeingAnimated = -1;
     function showFrame(fromPos,toPos,movedPiece,landedOnPiece){
+        if(reverseBoard){
+            fromPos = 63-fromPos;
+            toPos = 63-toPos;
+
+        }
         frameNumber+=1;
         if(frameNumber>=framesInAnimation){
             clearInterval(animationTimer);
