@@ -310,8 +310,14 @@ updateCursorIcon();
          boardSquares[draggedPiece]=0;
          boardSquares[selection] = fromValue;//A MOVE HAS BEEN MADE HERE
 
-         if(boardSquares[selection]==1&&selectionY==0){boardSquares[selection]=5;}
-         if(boardSquares[selection]==7&&selectionY==7){boardSquares[selection]=11;} //promotion
+         if(reverseBoard){
+             if(boardSquares[selection]==1&&selectionY==7){boardSquares[selection]=5;}
+             if(boardSquares[selection]==7&&selectionY==0){boardSquares[selection]=11;} //promotion
+         }else{
+             if(boardSquares[selection]==1&&selectionY==0){boardSquares[selection]=5;}
+             if(boardSquares[selection]==7&&selectionY==7){boardSquares[selection]=11;} //promotion
+         }
+
 
 
          whitesMoveStored=!whitesMoveStored;
