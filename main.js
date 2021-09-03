@@ -44,6 +44,7 @@ function resetBoard(){
     drawBackground();
     renderStills();
     //if(document.getElementById('onlineRadio').checked){
+    updateSidebar()
     if(false){
         var boardToUpload = 'w43256234111111110000000000000000000000000000000077777777a98bc89aSTOP';
         var url2 = "https://api.grobchess.com/api/chess?message=".concat(boardToUpload,'&channel=',channel);
@@ -123,6 +124,7 @@ var relativeX = 0;
 var relativeY = 0;
 var mousedownBool = false;
 function renderStills(){
+
     for(var i=0;i<=64-1;i++){
             var squareX=(i % 8);
             var squareY = Math.floor(i/8);
@@ -354,7 +356,7 @@ updateCursorIcon();
             }}
 
         }
-
+    updateSidebar();
 }
 
 function getPiece(myx,myy,board){
@@ -566,7 +568,7 @@ if((squareX+squareY)%2){
                  ctx.fillStyle = "#779AAF";
                  if(bgSquare == reversedLastMoveSource||bgSquare == reversedLastMoveDest){
                    ctx.fillStyle = "#7876b0";
-                   console.log("hey")
+                   //console.log("hey")
                  }
                  ctx.fill();
             ctx.closePath();
@@ -576,7 +578,7 @@ if((squareX+squareY)%2){
                  ctx.fillStyle = "#d5E1E5";
                  if(bgSquare == reversedLastMoveSource||bgSquare == reversedLastMoveDest){
                    ctx.fillStyle = "#d5b3e6";
-                   console.log("hey")
+                   //console.log("hey")
                  }
                  ctx.fill();
             ctx.closePath();
@@ -706,7 +708,7 @@ function onlineScanning(){
 
                    frameNumber=0;
                     animPiece = pieces[change[0]]
-
+                   updateSidebar();
                        animationTimer = window.setInterval(function(){
 
                             showFrame(change[0],change[1],change[2],landedOn);
@@ -905,7 +907,7 @@ const urlParams = new URLSearchParams(queryString);
 const page_type = urlParams.get('code')
 
 if(page_type!=null){
-    console.log(page_type);
+    //console.log(page_type);
     showOnlineStuff(true);
     document.getElementById('onlineRadio').checked=true;
     channel=page_type;
