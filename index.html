@@ -24,33 +24,23 @@
 <div style="
 display: block;
 margin: 0 auto;
-  width: 1250px;
+  width: 1188px;
   height: 800px;
-  border: 3px solid red;">
-
-  <div style="    position: absolute;
+  border: 0px solid red;">
+    <div style=" position:absolute;
     top:15px;
-
-    width: 96px;
-    height: 768px;
-    border: 0px solid orange;
-      background-color: lightgrey;">
-    </div>
-
-    <div style=" position:relative;
-    top:15px;
-    left:106px;
   width: 768px;
   height: 768px;
   border: 0px solid green;">
-    <canvas id="myCanvas" width="768" height="768"></canvas>
+  <canvas width="96" height="768" style="position:absolute;"></canvas>
+    <canvas id="myCanvas" width="768" height="768"style="padding-left:96px;"></canvas>
     </div>
-<div style="    position: absolute;
-  right: 100px;
-  top:15px;
+<div style="    position: relative;
+top:15px;
+  left: 870px;
   width: 320px;
   height: 300px;
-  border: 3px solid blue;
+  border: 0px solid blue;
     background-color: lightgrey;">
 
       <input style="margin-top: 5px" onclick="showOnlineStuff(false);" type="radio" id="localRadio" name="fav_language" value="LOCAL"checked="checked">
@@ -101,12 +91,11 @@ margin: 0 auto;
         <button style="" id="joinBtn2" hidden="true" onclick="joinFromSelection();">Join</button>
         <button style="display: none" hidden="true" id="reloadBtn" onclick="getRoomList()" >Search</button>
     </div>
-
 </div>
 </div>
 </div>
-<script src=main.js></script>
-<script src=sidebar.js></script>
+<script src=main.js>
+</script>
 
 
 </body>
