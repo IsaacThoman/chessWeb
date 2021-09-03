@@ -766,10 +766,12 @@ var pieceBeingAnimated = -1;
 
 
     }
+    var pieceSymbols = ['♙','♗','♘','♖','♕','♔','♟','♝','♞','♜','♛','♚'];
+    var selectedPieceSymbol = Math.floor(Math.random() * 6);
 var username = "";
     function sendUsername(){
-        var symbol = "♔";
-        if(reverseBoard){symbol="♚";}
+        var symbol = pieceSymbols[selectedPieceSymbol];
+        if(reverseBoard){symbol=pieceSymbols[selectedPieceSymbol+6];}
         var url = "https://api.grobchess.com/api/ChessAcc?message=".concat(symbol).concat(username).concat("&channel=".concat(channel));
 
         var xhr = new XMLHttpRequest();
