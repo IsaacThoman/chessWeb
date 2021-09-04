@@ -24,7 +24,7 @@ function updateSidebar(){
   ctx2.fillStyle = "#FFFFFF";
   ctx2.fill();
   ctx2.closePath();
-
+  if(channel==1114&&document.getElementById('onlineRadio').checked){return;}
   for(var i=1;i<=missingPiecesTotal;i++){
   var pieceToDraw = 0;
     for(var i2=1;i2<=12;i2++){
