@@ -34,7 +34,6 @@ function updateSidebar(){
     //    ((resolution / (totalPiecesCaptured+1))*renderPiece)-((resolution / 16))
     var position = ((boardResolution / (missingPiecesTotal + 1))*i)-((boardResolution/16))
     ctx2.drawImage(pieces[pieceToDraw],0,position,boardResolution/8,boardResolution/8)
-    console.log(pieceToDraw)
   }
 
     }

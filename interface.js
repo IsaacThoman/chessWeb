@@ -182,10 +182,17 @@ updateCursorIcon();
              lastMoveDest = selection;
          }
 
+
+         var interfaceSrcX =1+(draggedPiece % 8);
+         var interfaceSrcY = 8- Math.floor(draggedPiece/8);
+         var interfaceDestX = 1+(selection % 8);
+         var interfaceDestY = 8-Math.floor(selection/8);
+
+         var outMsg = numToChar(interfaceSrcX)+interfaceSrcY+numToChar(interfaceDestX)+interfaceDestY;
         lastUpload=Math.floor((new Date()).getTime() / 1000);
          if(document.getElementById('onlineRadio').checked) {
-            var boardToUpload = boardToString(boardSquares);
-             var url2 = "https://api.grobchess.com/api/chess?message=".concat(boardToUpload,'&channel=',channel);
+            //var boardToUpload = boardToString(boardSquares);
+             var url2 = "https://api.grobchess.com/api/chess?message=".concat(outMsg,'&channel=',channel);
 
              var xhr2 = new XMLHttpRequest();
              xhr2.open("POST", url2);
@@ -215,4 +222,36 @@ updateCursorIcon();
 
         }
     updateSidebar();
+}
+
+
+
+
+function numToChar(num){
+    switch(num) {
+        case 1:
+            return('a');
+            break;
+        case 2:
+            return('b');
+            break;
+        case 3:
+            return('c');
+            break;
+        case 4:
+            return('d');
+            break;
+        case 5:
+            return('e');
+            break;
+        case 6:
+            return('f');
+            break;
+        case 7:
+            return('g');
+            break;
+        case 8:
+            return('h');
+            break;
+    }
 }

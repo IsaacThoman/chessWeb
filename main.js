@@ -590,7 +590,7 @@ var pieceBeingAnimated = -1;
         var thisFrameX = animStartX+((animEndX-animStartX)*frameNumber/framesInAnimation);
         var thisFrameY = animStartY+((animEndY-animStartY)*frameNumber/framesInAnimation);
         //console.log(thisFrameX)
-        if(landedOnPiece!=0&&frameNumber<framesInAnimation){
+        if(landedOnPiece>0&&landedOnPiece<13&&frameNumber<framesInAnimation){
             ctx.drawImage(pieces[landedOnPiece],(toPos % 8)*boardResolution/8,Math.floor(toPos/8)*boardResolution/8, boardResolution/8, boardResolution/8);
         }
         ctx.drawImage(pieces[movedPiece],thisFrameX,thisFrameY, boardResolution/8, boardResolution/8);
