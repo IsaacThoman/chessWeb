@@ -521,7 +521,7 @@ function onlineScanning(){
                responseText = xhr.responseText;
 
                 responseText = responseText.substring(1, responseText.length-1);
-               if(responseText!=boardToString(boardSquares)){
+               if(responseText.substr(0,64)!=boardToString(boardSquares).substr(0,64)){
                 //console.log(responseText);
                 //console.log(boardToString(boardSquares));
 
