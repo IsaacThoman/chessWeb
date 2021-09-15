@@ -97,9 +97,26 @@ top:15px;
 
     </div>
 
-</div> <a href="https://go.grobchess.com/github"><i class="fab fa-github fa-lg"  style="color:black;"></i></a> <a href="https://exp.grobchess.com"><i style="color:black" class="fas fa-flask fa-lg"></i></a> <a href="https://go.grobchess.com/discord"><i style="color:black" class="fab fa-discord fa-lg"></i></a>
+</div> <a href="https://go.grobchess.com/github"><i class="fab fa-github fa-lg"  style="color:black;"></i></a> <a href="https://exp.grobchess.com"><i style="color:black; padding-bottom: 15px;" class="fas fa-flask fa-lg"></i></a> <br>
+    <a href="https://go.grobchess.com/discord"><i style="color:black" class="fab fa-discord fa-lg"></i></a>
+    <br></br>
+    <div style="background-color: #b2b2b2; width: 320px;"hidden="true">
+
+
+    <div id="messagesBox"style="background-color: lightgrey; height:120px;width:320px;overflow:auto;" >
+        No connection
+    </div>
+    <input style="width:275px; margin-top: 5px;margin-bottom: 5px;margin-right: 5px;"type="text" id="msgInput" value=""><button>Send</button>
+
+    </div>
+
 </div>
 </div>
+<script>
+    var msgBoxDiv = document.getElementById("messagesBox");
+    msgBoxDiv.scrollTop = msgBoxDiv.scrollHeight;
+</script>
+
 <script src=main.js></script>
 <script src=interface.js></script>
 <script src=sidebar.js></script>

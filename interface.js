@@ -117,6 +117,9 @@ boardResolution = canvas.width;
     updateLegalMoves(selection);
     updateCursorIcon();
 
+    if('touches' in e) {
+        mouseMoveHandler(e); //allows you to hold down to see legal moves, didn't really like it with a mouse
+    }
 }
 
 var legalMovesToShow = [0,15,23,47];
@@ -254,4 +257,26 @@ function numToChar(num){
             return('h');
             break;
     }
+}
+
+
+function updateCursorIcon(){
+    if(relativeX>=0 &&relativeX<=boardResolution&&relativeY>=0 &&relativeY<=boardResolution){
+        var selectionX = Math.ceil(relativeX/boardResolution*8)-1;
+        var selectionY = Math.ceil(relativeY/boardResolution*8)-1;
+        var selection = (((selectionY*8)-1)+selectionX)+1;
+        if(reverseBoard){
+            selection = 63-selection
+        }
+        if(mousedownBool && draggedPiece>0){
+            document.body.style.cursor = 'grabbing';
+        }
+        else if (boardSquares[selection]>0){
+            document.body.style.cursor = 'grab';
+        }else{
+            document.body.style.cursor = 'default';
+        }
+    }else{document.body.style.cursor = 'default';}
+
+
 }

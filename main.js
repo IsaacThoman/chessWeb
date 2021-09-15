@@ -155,26 +155,7 @@ function renderStills(){
 
 
 }
-function updateCursorIcon(){
-    if(relativeX>=0 &&relativeX<=boardResolution&&relativeY>=0 &&relativeY<=boardResolution){
-    var selectionX = Math.ceil(relativeX/boardResolution*8)-1;
-     var selectionY = Math.ceil(relativeY/boardResolution*8)-1;
-     var selection = (((selectionY*8)-1)+selectionX)+1;
-     if(reverseBoard){
-       selection = 63-selection
-     }
-     if(mousedownBool && draggedPiece>0){
-        document.body.style.cursor = 'grabbing';
-     }
-     else if (boardSquares[selection]>0){
-        document.body.style.cursor = 'grab';
-     }else{
-        document.body.style.cursor = 'default';
-     }
-    }else{document.body.style.cursor = 'default';}
 
-
-}
 
 
 function touchTest(e){
