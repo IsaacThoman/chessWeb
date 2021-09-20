@@ -531,6 +531,7 @@ function onlineScanning(){
             }};
         xhr.send();
     }
+    updateChat()
 }
 
 var lastMoveSource = -1;
@@ -646,6 +647,9 @@ if(document.getElementById('usernameInput').value != localStorage.getItem("usern
     if(lastUpload+2<=Math.floor((new Date()).getTime() / 1000)){
         onlineScanning();
     }
+
+
+
 }, 1000);
 
 if(localStorage.getItem("username")==null){
@@ -664,6 +668,8 @@ document.getElementById('usernameInput').setAttribute('value', localStorage.getI
         document.getElementById('channelInput').hidden = !enabled;
         document.getElementById('boardCodeH1').hidden = !enabled;
         document.getElementById('boardCodeH2').hidden = !enabled;
+
+        document.getElementById('chatDiv').hidden = !enabled;
 
         document.getElementById('mySelect').hidden = !enabled;
         document.getElementById('joinBtn2').hidden = !enabled;
