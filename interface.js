@@ -5,7 +5,45 @@ document.addEventListener("mouseup", mouseUpHandler, false);
 document.addEventListener("touchmove", mouseMoveHandler, false);
 document.addEventListener("touchstart", mouseDownHandler, false);
 document.addEventListener("touchend", mouseUpHandler, false);
+function drawTheDots(movesTS){
 
+//Draws legal move dots
+//updateLegalMoves(); //can probably stay commented?
+    for(var i=0;i<=movesTS.length;i++){
+        var squareX=(movesTS[i] % 8);
+        var squareY = Math.floor(movesTS[i]/8);
+        var drawSword = (getPiece(squareX,squareY,boardSquares)==0);
+        if(reverseBoard){
+            drawSword = (getPiece(7-squareX,7-squareY,boardSquares)==0);
+        }
+        if(drawSword){
+            ctx.drawImage(pieces[13],squareX*boardResolution/8, squareY*boardResolution/8, boardResolution/8, boardResolution/8);
+
+        }else{
+            ctx.drawImage(pieces[14],squareX*boardResolution/8, squareY*boardResolution/8, boardResolution/8, boardResolution/8);
+        }
+
+    }
+    renderStills(); //draws still pieces
+
+    for(var i=0;i<=legalMovesToShow.length;i++){  //this chunk draws the sword on attackable pieces
+        var squareX=(legalMovesToShow[i] % 8);
+        var squareY = Math.floor(legalMovesToShow[i]/8);
+        var drawSword = (getPiece(squareX,squareY,boardSquares)==0);
+        if(reverseBoard){
+            drawSword = (getPiece(7-squareX,7-squareY,boardSquares)==0);
+        }
+        if(!drawSword){
+            var useWhiteSword = (getPiece(squareX,squareY,boardSquares)>6);
+            if(reverseBoard){useWhiteSword = (getPiece(7-squareX,7-squareY,boardSquares)>6);}
+            if(useWhiteSword){
+                ctx.drawImage(pieces[15],squareX*boardResolution/8, squareY*boardResolution/8, boardResolution/8, boardResolution/8);
+            }else{
+                ctx.drawImage(pieces[16],squareX*boardResolution/8, squareY*boardResolution/8, boardResolution/8, boardResolution/8);
+            }
+        }
+    }
+}
 function mouseMoveHandler(e) {
     var rect = canvas.getBoundingClientRect();
     if('clientX' in e){
@@ -19,47 +57,11 @@ function mouseMoveHandler(e) {
 updateCursorIcon();
     if(mousedownBool&&mouseOnBoard(e)){
 
+
         drawBackground();
-
-//Draws legal move dots
-//updateLegalMoves(); //can probably stay commented?
-        for(var i=0;i<=legalMovesToShow.length;i++){
-            var squareX=(legalMovesToShow[i] % 8);
-            var squareY = Math.floor(legalMovesToShow[i]/8);
-            var drawSword = (getPiece(squareX,squareY,boardSquares)==0);
-            if(reverseBoard){
-              drawSword = (getPiece(7-squareX,7-squareY,boardSquares)==0);
-            }
-            if(drawSword){
-                ctx.drawImage(pieces[13],squareX*boardResolution/8, squareY*boardResolution/8, boardResolution/8, boardResolution/8);
-
-            }else{
-                ctx.drawImage(pieces[14],squareX*boardResolution/8, squareY*boardResolution/8, boardResolution/8, boardResolution/8);
-            }
-
-        }
+        drawTheDots(legalMovesToShow)
 
 
-
-        renderStills(); //draws still pieces
-
-        for(var i=0;i<=legalMovesToShow.length;i++){  //this chunk draws the sword on attackable pieces
-            var squareX=(legalMovesToShow[i] % 8);
-            var squareY = Math.floor(legalMovesToShow[i]/8);
-            var drawSword = (getPiece(squareX,squareY,boardSquares)==0);
-            if(reverseBoard){
-              drawSword = (getPiece(7-squareX,7-squareY,boardSquares)==0);
-            }
-            if(!drawSword){
-              var useWhiteSword = (getPiece(squareX,squareY,boardSquares)>6);
-              if(reverseBoard){useWhiteSword = (getPiece(7-squareX,7-squareY,boardSquares)>6);}
-                if(useWhiteSword){
-                ctx.drawImage(pieces[15],squareX*boardResolution/8, squareY*boardResolution/8, boardResolution/8, boardResolution/8);
-                }else{
-                    ctx.drawImage(pieces[16],squareX*boardResolution/8, squareY*boardResolution/8, boardResolution/8, boardResolution/8);
-                }
-            }
-        }
 
 
 if(draggedPiece>=0){//draws grabbed piece
@@ -104,6 +106,7 @@ boardResolution = canvas.width;
      var selectionY = Math.ceil(relativeY/boardResolution*8)-1;
 
     var selection = (((selectionY*8)-1)+selectionX)+1;
+    lastSelection = selection;
     if(reverseBoard){
       selection = 63-selection
     }
@@ -123,10 +126,10 @@ boardResolution = canvas.width;
 }
 
 var legalMovesToShow = [0,15,23,47];
-function updateLegalMoves(){
+function updateLegalMoves(selIn){
 legalMovesToShow = [];
 for(var i=0;i<=64;i++){
-    if(rulebook(draggedPiece,i,boardSquares,whitesMoveStored)){
+    if(rulebook(selIn,i,boardSquares,whitesMoveStored)){
       if(reverseBoard){
         legalMovesToShow.push(63-i);
       }else{
@@ -141,6 +144,9 @@ for(var i=0;i<=64;i++){
 }
 var channel = 1114;
 var lastUpload = 0;
+
+var firstClick = true;
+var lastSelection = -1;
 function mouseUpHandler(e) {
 mousedownBool=false;
 updateCursorIcon();
@@ -156,59 +162,19 @@ updateCursorIcon();
 
      var selectionX = Math.ceil(relativeX/boardResolution*8)-1;
      var selectionY = Math.ceil(relativeY/boardResolution*8)-1;
-     var selection = (((selectionY*8)-1)+selectionX)+1;;
+     var selection = (((selectionY*8)-1)+selectionX)+1;
+
+    if(lastSelection==selection){
+        couldaBeenAClick = true;
+    }
+
+
      if(reverseBoard){
        selection = 63-selection
      }
-     if(draggedPiece>=0&&rulebook(draggedPiece,selection,boardSquares,whitesMoveStored)&&checkCheck(draggedPiece,selection)){
-         var fromValue = boardSquares[draggedPiece];
-         boardSquares[draggedPiece]=0;
-         boardSquares[selection] = fromValue;//A MOVE HAS BEEN MADE HERE
 
-         if(reverseBoard){
-             if(boardSquares[selection]==1&&selectionY==7){boardSquares[selection]=5;}
-             if(boardSquares[selection]==7&&selectionY==0){boardSquares[selection]=11;} //promotion
-         }else{
-             if(boardSquares[selection]==1&&selectionY==0){boardSquares[selection]=5;}
-             if(boardSquares[selection]==7&&selectionY==7){boardSquares[selection]=11;} //promotion
-         }
+     tryToMakeThisMove(draggedPiece,selection)
 
-
-
-         whitesMoveStored=!whitesMoveStored;
-
-         if(reverseBoard){
-             lastMoveSource = 63-draggedPiece;
-             lastMoveDest = 63-selection;
-         }else {
-             lastMoveSource = draggedPiece;
-             lastMoveDest = selection;
-         }
-
-
-         var interfaceSrcX =1+(draggedPiece % 8);
-         var interfaceSrcY = 8- Math.floor(draggedPiece/8);
-         var interfaceDestX = 1+(selection % 8);
-         var interfaceDestY = 8-Math.floor(selection/8);
-
-         var outMsg = numToChar(interfaceSrcX)+interfaceSrcY+numToChar(interfaceDestX)+interfaceDestY;
-        lastUpload=Math.floor((new Date()).getTime() / 1000);
-         if(document.getElementById('onlineRadio').checked) {
-            //var boardToUpload = boardToString(boardSquares);
-             var url2 = "https://api.grobchess.com/api/chess?message=".concat(outMsg,'&channel=',channel);
-
-             var xhr2 = new XMLHttpRequest();
-             xhr2.open("POST", url2);
-
-             xhr2.setRequestHeader("Content-Type", "application/json");
-             //xhr2.setRequestHeader("Content-Length", "0");
-
-             xhr2.send();
-
-
-         }
-
- }
      draggedPiece=-1;
         if(relativeX<=boardResolution){
      drawBackground();
@@ -225,11 +191,121 @@ updateCursorIcon();
 
         }
     updateSidebar();
+
+    if(couldaBeenAClick){
+        console.log("yuh broh")
+        if(firstClick){
+            firstClick = false
+            lastClickedPiece = selection;
+
+
+            drawBackground()
+            updateLegalMoves(selection)
+            drawTheDots(legalMovesToShow)
+
+        }else{
+            var landedOnPiece = boardSquares[selection]
+            if(!tryToMakeThisMove(lastClickedPiece,selection)){
+                if(lastClickedPiece!=selection){
+                    firstClick = false;
+                    lastClickedPiece = selection;
+
+                    drawBackground()
+                    updateLegalMoves(selection)
+                    drawTheDots(legalMovesToShow)
+                }else{
+                    firstClick = true;
+                    lastClickedPiece = -1;
+
+                    drawBackground()
+                    renderStills()
+                }
+
+            }else{
+                firstClick = true;
+                //    console.log("doobaboobadee "+lastClickedPiece+" to "+selection)
+                frameNumber=0;
+
+                animationTimer = window.setInterval(function(){
+                    showFrame(lastClickedPiece,selection,boardSquares[selection],landedOnPiece);
+                }, 20);
+
+          //      drawBackground()
+            //    renderStills()
+            }
+
+
+
+
+        }
+
+        couldaBeenAClick = false;
 }
 
 
+    }
+
+function tryToMakeThisMove(frmMove,toMove){
+    var whatToReturn = false;
+    if(frmMove<0||toMove<0){
+        return;
+    }
+    console.log("input:"+frmMove+","+toMove)
+    var interfaceSrcX =1+(frmMove % 8);
+    var interfaceSrcY = 8- Math.floor(frmMove/8);
+    var interfaceDestX = 1+(toMove % 8);
+    var interfaceDestY = 8-Math.floor(toMove/8);
+    if(frmMove>=0&&rulebook(frmMove,toMove,boardSquares,whitesMoveStored)&&checkCheck(frmMove,toMove)){
+        whatToReturn=true;
+        var fromValue = boardSquares[frmMove];
+        boardSquares[frmMove]=0;
+        boardSquares[toMove] = fromValue;//A MOVE HAS BEEN MADE HERE
+
+        if(reverseBoard){
+            if(boardSquares[toMove]==1&&interfaceDestY==7){boardSquares[toMove]=5;}
+            if(boardSquares[toMove]==7&&interfaceDestY==0){boardSquares[toMove]=11;} //promotion
+        }else{
+            if(boardSquares[toMove]==1&&interfaceDestY==0){boardSquares[toMove]=5;}
+            if(boardSquares[toMove]==7&&interfaceDestY==7){boardSquares[toMove]=11;} //promotion
+        }
 
 
+
+        whitesMoveStored=!whitesMoveStored;
+
+        if(reverseBoard){
+            lastMoveSource = 63-frmMove;
+            lastMoveDest = 63-toMove;
+        }else {
+            lastMoveSource = frmMove;
+            lastMoveDest = toMove;
+        }
+
+
+
+
+        var outMsg = numToChar(interfaceSrcX)+interfaceSrcY+numToChar(interfaceDestX)+interfaceDestY;
+        lastUpload=Math.floor((new Date()).getTime() / 1000);
+        if(document.getElementById('onlineRadio').checked) {
+            //var boardToUpload = boardToString(boardSquares);
+            var url2 = "https://api.grobchess.com/api/chess?message=".concat(outMsg,'&channel=',channel);
+
+            var xhr2 = new XMLHttpRequest();
+            xhr2.open("POST", url2);
+
+            xhr2.setRequestHeader("Content-Type", "application/json");
+            //xhr2.setRequestHeader("Content-Length", "0");
+
+            xhr2.send();
+
+
+        }
+
+    }
+    return whatToReturn;
+}
+var couldaBeenAClick = false;
+var lastClickedPiece = -1;
 function numToChar(num){
     switch(num) {
         case 1:

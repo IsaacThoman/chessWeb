@@ -139,7 +139,7 @@ function renderStills(){
             if((boardSquares[i]!=0)&& draggedPiece !=i &&pieceBeingAnimatedReversed!=i ){
                 ctx.drawImage(pieces[boardSquares[i]],squareX*boardResolution/8, squareY*boardResolution/8, boardResolution/8, boardResolution/8);
             }
-            if(draggedPiece==i){
+            if(draggedPiece==i||(lastClickedPiece==i&&boardSquares[lastClickedPiece]!=0)){
                 ctx.beginPath();
                 ctx.rect(squareX*boardResolution/8, squareY*boardResolution/8, boardResolution/8, boardResolution/8);
                                 ctx.fillStyle = "#b1d0e3";
@@ -368,7 +368,7 @@ function drawBackground(){
 if((squareX+squareY)%2){
     ctx.beginPath();
  ctx.rect(squareX*boardResolution/8, squareY*boardResolution/8, boardResolution/8, boardResolution/8);
-                 ctx.fillStyle = "#779AAF";
+                 ctx.fillStyle = "#8ca2ad";
                  if(bgSquare == reversedLastMoveSource||bgSquare == reversedLastMoveDest){
                    ctx.fillStyle = "#7876b0";
                    //console.log("hey")
@@ -378,7 +378,7 @@ if((squareX+squareY)%2){
 }else{
     ctx.beginPath();
  ctx.rect(squareX*boardResolution/8, squareY*boardResolution/8, boardResolution/8, boardResolution/8);
-                 ctx.fillStyle = "#d5E1E5";
+                 ctx.fillStyle = "#dee3e6";
                  if(bgSquare == reversedLastMoveSource||bgSquare == reversedLastMoveDest){
                    ctx.fillStyle = "#d5b3e6";
                    //console.log("hey")
@@ -393,8 +393,8 @@ var visibleNotation2 = ['','','','','','','','','','','','','','','','','','',''
 var bgSquareRev = bgSquare;
 if(reverseBoard){bgSquareRev=63-bgSquare;}
 ctx.font = '20px calibri';
-ctx.fillStyle = "#779AAF";
-if((squareX+squareY)%2){ctx.fillStyle = "#d5E1E5";}
+ctx.fillStyle = "#8ca2ad";
+if((squareX+squareY)%2){ctx.fillStyle = "#dee3e6";}
 ctx.fillText(visibleNotation[bgSquareRev],(squareX*boardResolution/8)+8,((Math.floor(bgSquare/8)+1)*boardResolution/8)-boardResolution/8+20);
 ctx.fillText(visibleNotation2[bgSquareRev],(squareX*boardResolution/8)+boardResolution/8-20,((Math.floor(bgSquare/8)+1)*boardResolution/8)-8);
      if(debugMode){ctx.strokeText(bgSquare,squareX*boardResolution/8,(Math.floor(bgSquare/8)+1)*boardResolution/8,5000);}

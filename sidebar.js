@@ -15,7 +15,7 @@ function updateSidebar(){
 
   ctx2.beginPath();
   ctx2.rect(0,0,96,768);
-  ctx2.fillStyle = "#9fb7c6";
+  ctx2.fillStyle = "#8ca2ad";
   ctx2.fill();
   ctx2.closePath();
 
