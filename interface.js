@@ -222,6 +222,7 @@ updateCursorIcon();
                 }
 
             }else{
+                updateSidebar()
                 firstClick = true;
                 //    console.log("doobaboobadee "+lastClickedPiece+" to "+selection)
                 frameNumber=0;
