@@ -204,23 +204,34 @@ updateCursorIcon();
             drawTheDots(legalMovesToShow)
 
         }else{
-
+            var landedOnPiece = boardSquares[selection]
             if(!tryToMakeThisMove(lastClickedPiece,selection)){
                 if(lastClickedPiece!=selection){
                     firstClick = false;
                     lastClickedPiece = selection;
 
-
                     drawBackground()
                     updateLegalMoves(selection)
                     drawTheDots(legalMovesToShow)
+                }else{
+                    firstClick = true;
+                    lastClickedPiece = -1;
+
+                    drawBackground()
+                    renderStills()
                 }
 
             }else{
                 firstClick = true;
                 //    console.log("doobaboobadee "+lastClickedPiece+" to "+selection)
-                drawBackground()
-                renderStills()
+                frameNumber=0;
+
+                animationTimer = window.setInterval(function(){
+                    showFrame(lastClickedPiece,selection,boardSquares[selection],landedOnPiece);
+                }, 20);
+
+          //      drawBackground()
+            //    renderStills()
             }
 
 
