@@ -669,7 +669,12 @@ if(document.getElementById('usernameInput').value != localStorage.getItem("usern
         onlineScanning();
     }
 
-
+    if(frameNumber>200){
+        if(document.getElementById('onlineRadio').checked){
+            location.href='/?code='+channel
+        }else{
+        } // reloads the page when animations bug out on online games
+    }
 
 }, 1000);
 
