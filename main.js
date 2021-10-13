@@ -58,10 +58,10 @@ function resetBoard(){
         xhr2.send();
     }
 }
-    function boardSquaresReversed(){
+    function boardSquaresReversed(input){
         var reversed = [];
         for (var i=0;i<=63;i++) {
-            switch(boardSquares[i]){
+            switch(input[i]){
                 case 0: reversed.unshift(0); break;
                 case 1: reversed.unshift(7); break;
                 case 2: reversed.unshift(8); break;
@@ -165,40 +165,44 @@ function touchTest(e){
 function getPiece(myx,myy,board){
 return board[(((myy*8))+myx)];
 }
-function checkCheck(sourceMe,destinationMe){
-    //FIX THIS!!
-    return true;
-    var internalBoard = Object.assign([], boardSquares);
 
-    var fromValue = boardSquares[sourceMe];
-    internalBoard[sourceMe]=0;
-    internalBoard[destinationMe] = fromValue;
+var whitesMoveStored = true;
 
+function checkForCheck(board,whitesMove){
+    var myBoard = board.slice();
+    var kingPos = myBoard.indexOf(12);
 
-
-    for(var sourceI=0;sourceI<=63;sourceI++){
-        for(var destI=0;destI<=63;destI++){
-            internalBoard = Object.assign([], boardSquares);
-
-    var fromValue = boardSquares[sourceMe];
-    internalBoard[sourceMe]=0;
-    internalBoard[destinationMe] = fromValue;
-        if(rulebook(sourceI,destI,internalBoard,!whitesMoveStored)){
-        if(destI==internalBoard.indexOf(6)){
-        return false;
-        }
-
-
-        }
+    for(var sourceScan = 0; sourceScan<=63;sourceScan++){
+        if(rulebookSimple(sourceScan,kingPos,myBoard,true)){
+            return true;
         }
     }
-    return true;
+    return false;
 }
-var whitesMoveStored = true;
+
 function rulebook(source,destination,board,whitesMove){
+var myBoard = board.slice();
+myBoard[destination] = myBoard[source];
+myBoard[source] = 0;
+//console.log(myBoard)
+    if(whitesMove){
+        if(checkForCheck(boardSquaresReversed(myBoard),whitesMove)){
+            return false;
+        }
+    }else{
+        if(checkForCheck(myBoard,whitesMove)){
+            return false;
+        }
+    }
+
+
+return rulebookSimple(source,destination,board,whitesMove)
+}
+
+function rulebookSimple(source,destination,board,whitesMove){
 
     var internalBoard = board;
-    if(!whitesMove){internalBoard=boardSquaresReversed()}
+    if(!whitesMove){internalBoard=boardSquaresReversed(board)}
 
 if(!whitesMove){
     source=63-source;
@@ -354,7 +358,7 @@ return false;
 
 }
 
-debugMode = true;
+debugMode = false;
 
 function drawBackground(){
     var bgSquare = 0;
@@ -722,7 +726,7 @@ function getRandomArbitrary(min, max) {
 
  }
  function setChannel(newChannel){
-
+    firstAnim = true;
     document.getElementById('channelInput').value = '';
     if(newChannel>1&&newChannel<9999){
         resetBoard();

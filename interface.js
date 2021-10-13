@@ -256,7 +256,7 @@ function tryToMakeThisMove(frmMove,toMove){
     var interfaceSrcY = 8- Math.floor(frmMove/8);
     var interfaceDestX = 1+(toMove % 8);
     var interfaceDestY = 8-Math.floor(toMove/8);
-    if(frmMove>=0&&rulebook(frmMove,toMove,boardSquares,whitesMoveStored)&&checkCheck(frmMove,toMove)){
+    if(frmMove>=0&&rulebook(frmMove,toMove,boardSquares,whitesMoveStored)){
         whatToReturn=true;
         var fromValue = boardSquares[frmMove];
         boardSquares[frmMove]=0;
