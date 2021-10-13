@@ -335,7 +335,58 @@ function numToChar(num){
             break;
     }
 }
-
+function charToNum(num){
+    switch(num) {
+        case 'a':
+            return(1);
+            break;
+        case 'b':
+            return(2);
+            break;
+        case 'c':
+            return(3);
+            break;
+        case 'd':
+            return(4);
+            break;
+        case 'e':
+            return(5);
+            break;
+        case 'f':
+            return(6);
+            break;
+        case 'g':
+            return(7);
+            break;
+        case 'h':
+            return(8);
+            break;
+        case '1':
+            return(1);
+            break;
+        case '2':
+            return(2);
+            break;
+        case '3':
+            return(3);
+            break;
+        case '4':
+            return(4);
+            break;
+        case '5':
+            return(5);
+            break;
+        case '6':
+            return(6);
+            break;
+        case '7':
+            return(7);
+            break;
+        case '8':
+            return(8);
+            break;
+    }
+}
 
 function updateCursorIcon(){
     if(relativeX>=0 &&relativeX<=boardResolution&&relativeY>=0 &&relativeY<=boardResolution){

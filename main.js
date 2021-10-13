@@ -354,7 +354,7 @@ return false;
 
 }
 
-debugMode = false;
+debugMode = true;
 
 function drawBackground(){
     var bgSquare = 0;
@@ -511,6 +511,15 @@ function onlineScanning(){
                    boardSquares = stringToBoard(responseText);
                     whitesMoveStored = (responseText[0]=='w');
 
+                   var srcX = (charToNum(responseText.charAt(69))-1)
+                   var srcY = 7-(charToNum(responseText.charAt(70))-1)
+                   var destX = (charToNum(responseText.charAt(71))-1)
+                   var destY = 7-(charToNum(responseText.charAt(72))-1)
+
+                   var recSrc = ((srcY*8))+srcX
+                   var recDest = ((destY*8))+destX
+
+                  //  lastMoveSource = (((Y*8))+X)
                    //console.log(landedOn)
 
 
@@ -523,7 +532,14 @@ function onlineScanning(){
                    updateSidebar();
                        animationTimer = window.setInterval(function(){
 
-                            showFrame(change[0],change[1],change[2],landedOn);
+
+                           if(firstAnim){
+                               showFrame(recSrc,recDest,boardSquares[recDest],0);
+
+                           }else{
+                               showFrame(change[0],change[1],change[2],landedOn);
+                           }
+
                        }, 32);
 
 
@@ -533,7 +549,7 @@ function onlineScanning(){
     }
     updateChat()
 }
-
+var firstAnim = true;
 var lastMoveSource = -1;
 var lastMoveDest = -1;
 var frameNumber = 0;
@@ -553,6 +569,7 @@ var pieceBeingAnimated = -1;
             renderStills();
             lastMoveSource = fromPos;
             lastMoveDest = toPos;
+            firstAnim = false;
         }
 
         drawBackground()
