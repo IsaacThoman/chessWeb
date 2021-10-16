@@ -97,8 +97,8 @@ top:15px;
 
     </div>
 
-</div> <a href="https://go.grobchess.com/github"><i class="fab fa-github fa-lg"  style="color:black;"></i></a> <a href="https://exp.grobchess.com"><i style="color:black; padding-bottom: 15px;" class="fas fa-flask fa-lg"></i></a> <br>
-    <a hidden=true href="https://go.grobchess.com/discord"><i style="color:black" class="fab fa-discord fa-lg"></i></a>
+</div> <a href="https://go.grobchess.com/github"><i class="fab fa-github fa-lg"  style="color:black;"></i></a> <a href="https://exp.grobchess.com"><i style="color:black; padding-bottom: 15px;" class="fas fa-flask fa-lg"></i></a> <a href="https://docs.grobchess.com"><i class="fas fa-book fa-lg"  style="color:black;"></i></a> <i class="fas fa-chess-knight fa-lg"  onclick="toggleThemeShow()"style="color:black;"></i><br>
+    <canvas hidden=true id="themeCanvas"  width="0" height="0"style=" touch-action:none;"></canvas>
     <br></br>
     <div id="chatDiv" style="background-color: #b2b2b2; width: 320px;"hidden="true">
 
@@ -122,10 +122,13 @@ top:15px;
 
 </div>
 </div>
+
+
 <script src=interface.js></script>
 <script src=main.js></script>
 <script src=sidebar.js></script>
 <script src=chat.js></script>
+<script src=themes.js></script>
 
 
 </body>
