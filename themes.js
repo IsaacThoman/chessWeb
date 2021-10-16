@@ -4,8 +4,8 @@ const tCtx = tCanvas.getContext("2d");
 document.addEventListener("mouseup", mouseUpHandler2, false);
 var relativeXT = 0;
 var relativeYT = 0;
-var piecePaths = ["grobchess","troll","alpha","california","cardinal","cburnett","chess7","chessnut","companion","dubrovny","fantasy","fresca","gioco","governor","horsey","icpieces","kosal","leipzig","letter","libra","maestro","merida","pirouetti","pixel","staunty","shapes"]//,"riohacha","spatial","reillycraig","tatiana"
-var pieceTypes = ["png","png","svg","svg","svg","svg","svg","svg","svg","svg","svg","svg","svg","svg","svg","svg","svg","svg","svg","svg","svg","svg","svg","svg","svg","svg","svg","svg","svg","svg","svg","svg","svg","svg","svg","svg","svg","svg","svg","svg","svg","svg","svg","svg","svg",]
+var piecePaths = ["grobchess","troll","alpha","california","cardinal","cburnett","chess7","chessnut","companion","dubrovny","fresca","gioco","governor","horsey","icpieces","kosal","leipzig","letter","libra","maestro","merida","pirouetti","pixel","staunty","shapes"]//,"riohacha","spatial","reillycraig","tatiana"
+var pieceTypes = ["png","png","svg","svg","svg","svg","svg","svg","svg","svg","svg","svg","svg","png","svg","svg","svg","svg","svg","svg","svg","svg","svg","svg","svg","svg","svg","svg","svg","svg","svg","svg","svg","svg","svg","svg","svg","svg","svg","svg","svg","svg","svg","svg",]
 var fileNames = ["wP","wB","wN","wR","wQ","wK","bP","bB","bN","bR","bQ","bK"]
 if(localStorage.getItem("pieceTheme")==null){
     localStorage.setItem("pieceTheme",0);
@@ -15,12 +15,14 @@ var themeUsed = localStorage.getItem("pieceTheme");
 var pieces = new Array();
 pieces[0] = new Image();
 pieces[0].src = 'resources/troll.png';
-
+function getPieces(){
     for (let i = 1; i <= 12; i++) {
         pieces[i] = new Image();
 
         pieces[i].src = 'resources/others/'+piecePaths[themeUsed]+'/'+fileNames[i-1]+'.'+pieceTypes[themeUsed];
     }
+}
+getPieces()
 
 
 
@@ -51,6 +53,18 @@ function mouseUpHandler2(e){
     if(relativeXT<0||relativeYT<0||relativeXT>320||relativeYT>380){
         return;
     }
+
+    for(var i = 0; i<selBoxX.length; i++){
+        if(relativeXT>selBoxX[i]&&relativeXT<selBoxX[i]+55&&relativeYT>selBoxY[i]&&relativeYT<selBoxY[i]+55){
+        themeUsed = selBoxValue[i];
+        getPieces()
+        localStorage.setItem("pieceTheme",themeUsed);
+        console.log("set theme to "+piecePaths[themeUsed])
+        drawBackground()
+            pieces[12].onload = function(){renderStills(); }
+        }
+    }
+
 }
 var tBoardResolution = tCanvas.width;
 
@@ -67,6 +81,9 @@ var themeColorsDark = ["#8ca2ad"];
 var themeColorsSelLight = ["#d5b3e6"];
 var themeColorsSelDark = ["#7876b0"];
 
+var selBoxX = [];
+var selBoxY = [];
+var selBoxValue = [];
 
 function toggleThemeShow() {
     if (toggleTheme) {
@@ -81,7 +98,7 @@ function toggleThemeShow() {
     tCtx.beginPath();
     tCtx.rect(0, 0, 320, 380);
     tCtx.fillStyle = "#8ca2ad";
-    tCtx.fill();
+    tCtx.fill();themeColorsDark[0];
     tCtx.closePath();
     var imgOn = 0;
     for (var x = 0; x < 5; x++) {
@@ -91,10 +108,16 @@ function toggleThemeShow() {
             var size = 55;
             tCtx.beginPath();
             tCtx.rect(imgX,imgY,size,size);
-            tCtx.fillStyle = "#dee3e6";
+            tCtx.fillStyle = themeColorsLight[0];
+            if(imgOn==themeUsed){
+                tCtx.fillStyle = themeColorsSelLight[0];
+            }
             tCtx.fill();
             tCtx.closePath();
             tCtx.drawImage(previewImages[imgOn],imgX,imgY,size,size)
+            selBoxX.push(imgX);
+            selBoxY.push(imgY);
+            selBoxValue.push(imgOn)
             imgOn++;
         }
     }
