@@ -54,14 +54,14 @@ function mouseUpHandler2(e){
         return;
     }
 
-    for(var i = 0; i<selBoxX.length; i++){
+    for(var i = 0; i<piecePaths.length; i++){
         if(relativeXT>selBoxX[i]&&relativeXT<selBoxX[i]+55&&relativeYT>selBoxY[i]&&relativeYT<selBoxY[i]+55){
         themeUsed = selBoxValue[i];
         getPieces()
         localStorage.setItem("pieceTheme",themeUsed);
         console.log("set theme to "+piecePaths[themeUsed])
         drawBackground()
-            pieces[12].onload = function(){renderStills(); }
+            pieces[12].onload = function(){renderStills(); toggleThemeShow();toggleThemeShow(); }
         }
     }
 
