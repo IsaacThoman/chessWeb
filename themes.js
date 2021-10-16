@@ -1,14 +1,63 @@
 var toggleTheme = true;
 var tCanvas = document.getElementById('themeCanvas');
 const tCtx = tCanvas.getContext("2d");
+document.addEventListener("mouseup", mouseUpHandler2, false);
+var relativeXT = 0;
+var relativeYT = 0;
+var piecePaths = ["grobchess","troll","alpha","california","cardinal","cburnett","chess7","chessnut","companion","dubrovny","fantasy","fresca","gioco","governor","horsey","icpieces","kosal","leipzig","letter","libra","maestro","merida","pirouetti","pixel","staunty","shapes"]//,"riohacha","spatial","reillycraig","tatiana"
+var pieceTypes = ["png","png","svg","svg","svg","svg","svg","svg","svg","svg","svg","svg","svg","svg","svg","svg","svg","svg","svg","svg","svg","svg","svg","svg","svg","svg","svg","svg","svg","svg","svg","svg","svg","svg","svg","svg","svg","svg","svg","svg","svg","svg","svg","svg","svg",]
+var fileNames = ["wP","wB","wN","wR","wQ","wK","bP","bB","bN","bR","bQ","bK"]
+if(localStorage.getItem("pieceTheme")==null){
+    localStorage.setItem("pieceTheme",0);
+}
+var themeUsed = localStorage.getItem("pieceTheme");
 
+var pieces = new Array();
+pieces[0] = new Image();
+pieces[0].src = 'resources/troll.png';
+
+    for (let i = 1; i <= 12; i++) {
+        pieces[i] = new Image();
+
+        pieces[i].src = 'resources/others/'+piecePaths[themeUsed]+'/'+fileNames[i-1]+'.'+pieceTypes[themeUsed];
+    }
+
+
+
+
+pieces[13] = new Image();
+pieces[14] = new Image();
+pieces[15] = new Image();
+pieces[16] = new Image();
+
+pieces[13].src = 'resources/legalMoveDot.png';
+pieces[14].src = 'resources/redDot.png';
+pieces[15].src = 'resources/sword.png';
+pieces[16].src = 'resources/sword_b.png';
+
+pieces[16].onload = function(){renderStills();}
+
+function mouseUpHandler2(e){
+
+    var rect = tCanvas.getBoundingClientRect();
+    if('clientX' in e){
+        relativeXT = e.clientX - rect.left;
+        relativeYT = e.clientY - rect.top;
+    }
+    if('touches' in e){
+        relativeXT = e.touches[0].clientX - rect.left;
+        relativeYT = e.touches[0].clientY - rect.top;
+    }
+    if(relativeXT<0||relativeYT<0||relativeXT>320||relativeYT>380){
+        return;
+    }
+}
 var tBoardResolution = tCanvas.width;
 
-var piecePaths = ["alpha","california","cardinal","cburnett","chess7","chessnut","companion","dubrovny","fantasy","fresca","gioco","governor","horsey","icpieces","kosal","leipzig","letter","libra","maestro","merida","pirouetti","pixel","staunty","shapes"]//,"riohacha","spatial","reillycraig","tatiana"
-var previewImages = [pieces[3]];
+var previewImages = [];
 piecePaths.forEach(element =>{
     tempImg = new Image();
-    tempImg.src = "resources/others/"+element+"/wN.svg"
+    tempImg.src = "resources/others/"+element+"/wN."+pieceTypes[piecePaths.indexOf(element)]
     previewImages.push(tempImg);
 
 })

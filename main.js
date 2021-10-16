@@ -87,24 +87,7 @@ function resetBoard(){
     var boardResolution = canvas.width;
 
 
-    var pieces = new Array();
-    pieces[0] = new Image();
-    for (let i = 1; i <= 12; i++) {
-        pieces[i] = new Image();
-    pieces[i].src = 'resources/'+i+'.png';
-    }
-    pieces[13] = new Image();
-    pieces[14] = new Image();
-    pieces[15] = new Image();
-    pieces[16] = new Image();
 
-    pieces[0].src = 'resources/troll.png';
-    pieces[13].src = 'resources/legalMoveDot.png';
-    pieces[14].src = 'resources/redDot.png';
-    pieces[15].src = 'resources/sword.png';
-    pieces[16].src = 'resources/sword_b.png';
-
-    pieces[12].onload = function(){renderStills();}
 
     var link = document.querySelector("link[rel~='icon']");
     if (!link) {link = document.createElement('link');link.rel = 'icon';document.getElementsByTagName('head')[0].appendChild(link);}
