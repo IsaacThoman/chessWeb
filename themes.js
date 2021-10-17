@@ -61,7 +61,9 @@ function mouseUpHandler2(e){
         localStorage.setItem("pieceTheme",themeUsed);
         console.log("set theme to "+piecePaths[themeUsed])
         drawBackground()
-            pieces[12].onload = function(){renderStills(); toggleThemeShow();toggleThemeShow(); }
+            pieces[12].onload = function(){drawBackground(); renderStills(); toggleThemeShow();toggleThemeShow(); updateSidebar(); }
+            pieces[11].onload = function(){drawBackground(); renderStills();}
+            pieces[9].onload = function(){drawBackground(); renderStills();}
         }
     }
 

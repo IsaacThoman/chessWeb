@@ -193,7 +193,7 @@ updateCursorIcon();
     updateSidebar();
 
     if(couldaBeenAClick){
-        console.log("yuh broh")
+      //  console.log("yuh broh")
         if(firstClick){
             firstClick = false
             lastClickedPiece = selection;
@@ -251,7 +251,7 @@ function tryToMakeThisMove(frmMove,toMove){
     if(frmMove<0||toMove<0){
         return;
     }
-    console.log("input:"+frmMove+","+toMove)
+    //console.log("input:"+frmMove+","+toMove)
     var interfaceSrcX =1+(frmMove % 8);
     var interfaceSrcY = 8- Math.floor(frmMove/8);
     var interfaceDestX = 1+(toMove % 8);
