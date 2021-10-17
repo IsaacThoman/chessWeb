@@ -262,12 +262,15 @@ function tryToMakeThisMove(frmMove,toMove){
         boardSquares[frmMove]=0;
         boardSquares[toMove] = fromValue;//A MOVE HAS BEEN MADE HERE
 
-        if(reverseBoard){
-            if(boardSquares[toMove]==1&&interfaceDestY==7){boardSquares[toMove]=5;}
-            if(boardSquares[toMove]==7&&interfaceDestY==0){boardSquares[toMove]=11;} //promotion
-        }else{
-            if(boardSquares[toMove]==1&&interfaceDestY==0){boardSquares[toMove]=5;}
-            if(boardSquares[toMove]==7&&interfaceDestY==7){boardSquares[toMove]=11;} //promotion
+        for(var x = 0; x<=7; x++){
+            if(boardSquares[x]==1){
+                boardSquares[x]=5;
+            }
+        }
+        for(var x = 56; x<=63; x++){
+            if(boardSquares[x]==7){
+                boardSquares[x]=11;
+            }
         }
 
 
