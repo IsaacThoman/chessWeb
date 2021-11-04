@@ -22,12 +22,15 @@
 
 
               <div class='row' style="margin-top:5px;">
-                  <button class="button is-dark is-small">Join game</button>
+                  <button class="button is-dark is-small" onclick="toggleJoinBox()">Join game</button>
                   <button class="button is-dark is-small">Create board</button>
               </div>
 
-              <div class="box" style="margin-top: 20px;">
+              <div class="box is-hidden" id="joinBox"  style="margin-top: 20px;">
                   <div class="rows">
+
+
+                      </div>
                       <div class="row">
                           <h6 class="title is-6">Open boards</h6>
                           </div>
@@ -41,17 +44,18 @@
                   </div>
                           <button class="button is-dark is-small">Join</button>
                   </div>
-              </div>
+                  <div class="row">
+                      <h6 class="title is-6" style="margin-top:15px;">Join with board code or username</h6>
+                  </div>
+                  <div class="row" style="margin-top: 10px;">
+                      <input class="input is-small" type="text" placeholder="Ex: 1234, Henri82">
+                  </div>
               </div>
 
-              <div class='row' style="margin-top:5px;">
-                  <button class="button is-dark is-small">Local game</button>
-                  <button class="button is-dark is-small">Play against bot</button>
               </div>
-
 
               <div class='row' style="margin-top:20px;">
-                  <button class="button is-dark is-small">Settings</button>
+
               </div>
 
           </div>
@@ -61,4 +65,6 @@
 
 
 </body>
+
+<script src="main.js"></script>
 </html>
