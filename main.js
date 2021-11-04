@@ -379,7 +379,7 @@ var visibleNotation2 = ['','','','','','','','','','','','','','','','','','',''
 //ctx.strokeText(visibleNotation[bgSquare],squareX*boardResolution/8,(Math.floor(bgSquare/8)+1)*boardResolution/8,50000);
 var bgSquareRev = bgSquare;
 if(reverseBoard){bgSquareRev=63-bgSquare;}
-ctx.font = '20px calibri';
+ctx.font = (boardResolution/38.4)+'px calibri';
 ctx.fillStyle = "#8ca2ad";
 if((squareX+squareY)%2){ctx.fillStyle = "#dee3e6";}
 ctx.fillText(visibleNotation[bgSquareRev],(squareX*boardResolution/8)+8,((Math.floor(bgSquare/8)+1)*boardResolution/8)-boardResolution/8+20);
