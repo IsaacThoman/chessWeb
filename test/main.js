@@ -1,9 +1,13 @@
 var joinBoxShown = false;
-function toggleJoinBox(){
-    var element = document.getElementById("joinBox");
-    if(element.classList.contains("is-hidden")){
-        element.classList.remove("is-hidden");
+var joinBoxElement = document.getElementById("joinBox");
+function showJoinBox(showHide){
+    if(!showHide){
+        joinBoxElement.classList.remove("is-hidden");
     }else{
-        element.classList.add("is-hidden");
+        joinBoxElement.classList.add("is-hidden");
     }
+}
+
+function joinBtn(){
+    showJoinBox(!joinBoxElement.classList.contains("is-hidden"));
 }
