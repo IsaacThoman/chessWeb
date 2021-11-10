@@ -1,135 +1,112 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <meta charset="utf-8" />
-    <title>GrobChess</title>
-
-    <meta property="og:title" content="GrobChess" />
-    <meta property="og:type" content="website" />
-    <meta property="og:url" content="https://grobchess.com" />
-    <meta property="og:image" content="https://grobchess.com/resources/preview.png" />
-    <meta property="og:description" content="An open-source online chess game" />
-    <meta name="theme-color" content="#779aaf">
-    <meta name="twitter:card" content="summary_large_image">
-    <style>
-    	* { padding: 0; margin: 0; }
-    	canvas { background: #eee; display: block; margin: 0 auto; }
-
-
-
-    </style>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>CSS test</title>
     <script src="https://kit.fontawesome.com/dedffaacb0.js" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.3/css/bulma.min.css">
 </head>
 <body>
-<div style="
-display: block;
-margin: 0 auto;
-  width: 1188px;
-  height: 800px;
-  border: 0px solid red;">
-    <div style=" position:absolute;
-    top:15px;
-  width: 768px;
-  height: 768px;
-  border: 0px solid green;">
 
-    <canvas id="myCanvas" width=768" height="768"style="padding-right:96px; touch-action:none;"></canvas>
-    <canvas id="myCanvas2" width="96" height="768" style="position:absolute; right:-96px; top:0px;"></canvas>
+    <div class="columns">
+      <div class="column"style="">
+
+          <image src="terribleHorribleImage.png" style="float:right; margin-top:10px;"></image>
+
+
+      </div>
+      <div class="column is-one-third is-flex"style="margin-top:10px; margin-left:10px;">
+          <div class='rows'style="">
+
+              <h1 class="title is-2">GrobChess</h1>
+
+
+              <div class='row' style="margin-top:5px;">
+                  <button class="button is-dark is-small" onclick="joinBtn()">Join game</button>
+                  <button class="button is-dark is-small">Create board</button>
+              </div>
+
+              <div class="box is-hidden" id="joinBox"  style="margin-top: 20px;">
+                  <div class="rows">
+
+
+                      </div>
+                      <div class="row">
+                          <h6 class="title is-6">Open boards</h6>
+                          </div>
+
+                      <div class="row" style="margin-top:10px;">
+                  <div class="select is-multiple is-small">
+                      <select multiple size="4" style="width:200px;">
+                          <option value="Argentina">hob</option>
+                          <option value="Bolivia">Henri62</option>
+                      </select>
+                  </div>
+                          <button class="button is-dark is-small">Join</button>
+                  </div>
+                  <div class="row">
+                      <h6 class="title is-6" style="margin-top:15px;">Join with board code or username</h6>
+                  </div>
+                  <div class="row" style="margin-top: 10px;">
+                      <input class="input is-small" type="text" placeholder="Ex: 1234, Henri82">
+                  </div>
+              </div>
+
+
+              <div class="box" id="gameBox"  style="margin-top: 20px; display: block;">
+
+                  <h5 class="title is-5" style="margin-bottom: 0px">Henri86</h5>
+                  <p class="" style="font-size: medium; margin-top: 0px;">10:00</p>
+
+                  <button class="button is-light is-small"><i class="fas fa-retweet"></i> </button>
+                  <button class="button is-light is-small"><i class="fas fa-chevron-left"></i> </button>
+                  <button class="button is-light is-small"> <i class="fas fa-chevron-right"></i> </button>
+                  <button class="button is-light is-small"> <i class="fas fa-arrow-right"></i> </button>
+
+
+                  <div class="table-container">
+                  <table class="table is-striped is-bordered is-fullwidth" style="text-align: center; margin-top:5px;">
+                      <tr>
+                          <td>e2e4</td>
+                          <td>d7d5</td>
+                      </tr>
+                      <tr>
+                          <td>e4d5</td>
+                          <td>d8d5</td>
+                      </tr>
+                      <tr>
+                          <td>b1c3</td>
+                          <td>d5e4</td>
+                      </tr>
+                      <tr>
+                          <td>d1e2</td>
+                          <td class="is-selected">e4e2</td>
+                      </tr>
+                  </table>
+                  </div>
+
+                  <p class="" style="font-size: medium;">10:00</p>
+                  <h5 class="title is-5" style="">hob</h5>
+
+                  <h7 class="title is-7" style="margin-bottom: 10px">Room: 6568</h7>
+              </div>
+              
+
+              </div>
+
+
+              <div class='row' style="margin-top:20px;">
+
+              </div>
+
+          </div>
+
+      </div>
     </div>
-<div style="    position: relative;
-top:15px;
-  left: 870px;
-  width: 320px;
-  height: 300px;
-  border: 0px solid blue;
-    background-color: lightgrey;">
-
-      <input style="margin-top: 5px" onclick="showOnlineStuff(false);" type="radio" id="localRadio" name="fav_language" value="LOCAL"checked="checked">
-      <label for="onlineRadio">Local</label><br>
-      <input onclick="showOnlineStuff(true);" type="radio" id="onlineRadio" name="fav_language" value="ONLINE">
-      <label  for="onlineRadio">Online (WIP)</label><br>
-
-    <!--
-      <button onclick="resetBoard();
-        document.getElementById('boardCodeH1').hidden = true;
-        document.getElementById('boardCodeH2').hidden = true;
-        if(document.getElementById('onlineRadio').checked){
-            document.getElementById('mySelect').hidden = false;
-        }
-
-        channel = 1114;"
->Reset</button>
-    -->
-      <button onclick="
-    if(document.getElementById('onlineRadio').checked){
-        location.href='/?code='+channel
-    }else{
-        location.href='/'
-    }
-
-"
-    >Reload</button>
-
-    <label id='usernameLabel' hidden="true" ><br>  Username:</label><br>
-      <input hidden="true"  type="text" id="usernameInput" value=""><br>
-    <label>  Play as black</label>
-     <input id="blackBtn" type="checkbox"onclick="reverseBoard=document.getElementById('blackBtn').checked; drawBackground(); renderStills();"><br>
-      <button style="margin-top:10px" hidden=true onclick="createBoard()" id="createBoardBtn">Create Board</button>
-      <button onclick="setChannel(parseInt(document.getElementById('channelInput').value));" hidden=true id="joinBoardBtn">Join Board</button>
-    <input type="number" id="channelInput" min="1000" max="9999" hidden="true">
-    <h3 id='boardCodeH1' style="font-family:verdana;margin-top:15px;margin-left:10px;" hidden=true></h3>
-    <p id='boardCodeH2' style="font-family:verdana;margin-top:15px;margin-left:10px;" hidden=true></p>
-<div style="  position: relative;width: 400px;height: 200px;">
-    <form>
-<div style="    position: absolute;
-
-">
-        <select hidden=true id="mySelect" size="5" style="width:250px; margin-left: 10px; margin-top: 10px">
-
-        </select>
-</div>
-    </form>
-    <div style=" margin-top:10px; position: absolute;right: 0px;width: 130px;height: 120px;">
-        <button style="" id="joinBtn2" hidden="true" onclick="joinFromSelection();">Join</button>
-        <button style="display: none" hidden="true" id="reloadBtn" onclick="getRoomList()" >Search</button>
-
-
-    </div>
-
-</div> <a href="https://go.grobchess.com/github"><i class="fab fa-github fa-lg"  style="color:black;"></i></a> <a href="https://exp.grobchess.com"><i style="color:black; padding-bottom: 15px;" class="fas fa-flask fa-lg"></i></a> <a href="https://docs.grobchess.com"><i class="fas fa-book fa-lg"  style="color:black;"></i></a> <i class="fas fa-chess-knight fa-lg"  onclick="toggleThemeShow()"style="color:black;"></i><br>
-    <canvas hidden=true id="themeCanvas"  width="0" height="0"style=" touch-action:none;"></canvas>
-    <br></br>
-    <div id="chatDiv" style="background-color: #b2b2b2; width: 320px;"hidden="true">
-
-
-    <div id="messagesOut"style="background-color: lightgrey; height:120px;width:320px;overflow:auto;" >
-        No connection
-    </div>
-    <input style="width:275px; margin-top: 5px;margin-bottom: 5px;margin-right: 0px;"type="text" id="msgInput" value="" formaction="sendMessageBtn();">
-        <button onclick="sendMessageBtn();" >Send</button>
-
-    </div>
-    <script>
-        var input = document.getElementById("msgInput");
-        input.addEventListener("keyup", function(event) {
-            if (event.keyCode === 13) {
-                event.preventDefault();
-                sendMessageBtn()
-            }
-        });
-    </script>
-
-</div>
-</div>
-
-
-<script src=interface.js></script>
-<script src=main.js></script>
-<script src=sidebar.js></script>
-<script src=chat.js></script>
-<script src=themes.js></script>
-<script src=engine.js></script>
 
 
 </body>
+
+<script src="main.js"></script>
 </html>
